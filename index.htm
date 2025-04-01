@@ -1,11 +1,3 @@
-<?php
-$fichier = fopen('system/visites/visites.txt', 'a');
-date_default_timezone_set('Europe/Paris');
-$donnees_visites =  date('d/m/y H:i:s') . " " . $_SERVER["REMOTE_ADDR"] . " " . "\n";
-fputs($fichier, $donnees_visites);
-fclose($fichier);
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
