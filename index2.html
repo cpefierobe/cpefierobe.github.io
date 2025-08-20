@@ -1,109 +1,116 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Publications – Votre Nom</title>
-<style>
-body {
-margin: 0;
-font-family: system-ui, sans-serif;
-line-height: 1.6;
-background: #f9fafb;
-color: #111827;
-max-width: 800px;
-padding: 2rem;
-margin-left: auto;
-margin-right: auto;
-}
-h1 {
-font-size: 2rem;
-margin-bottom: 0.25rem;
-}
-p.description {
-color: #4b5563;
-margin-top: 0;
-margin-bottom: 2rem;
-}
-ul.publications {
-list-style: none;
-padding: 0;
-}
-ul.publications li {
-margin-bottom: 1.5rem;
-}
-ul.publications li h3 {
-margin: 0;
-font-size: 1.05rem;
-}
-.meta {
-font-size: 0.9rem;
-color: #374151;
-margin: 0.25rem 0;
-}
-.links a {
-display: inline-block;
-margin-right: 0.75rem;
-font-size: 0.85rem;
-color: #2563eb;
-text-decoration: none;
-}
-.links a:hover {
-text-decoration: underline;
-}
-/* Icônes simples */
-.links a.pdf::before { content: "📄 "; }
-.links a.doi::before { content: "🔑 "; }
-.links a.code::before { content: "💻 "; }
-.links a.arxiv::before { content: "📝 "; }
-footer {
-margin-top: 3rem;
-font-size: 0.85rem;
-color: #6b7280;
-text-align: center;
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publications – Votre Nom</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      line-height: 1.6;
+      color: #000;
+      max-width: 700px;
+      padding: 2rem;
+      margin: auto;
+      background: #fff;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.25rem;
+    }
+    p.description {
+      margin-top: 0;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+    ul.publications {
+      list-style: none;
+      padding: 0;
+    }
+    ul.publications li {
+      margin-bottom: 1.2rem;
+    }
+    ul.publications li h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .meta {
+      font-size: 0.9rem;
+      margin: 0.2rem 0;
+    }
+    .links a {
+      margin-right: 0.75rem;
+      font-size: 0.85rem;
+      color: #0000ee;
+      text-decoration: none;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    .links a.pdf::before { content: "📄 "; }
+    .links a.doi::before { content: "🔑 "; }
+    .links a.code::before { content: "💻 "; }
+    .links a.arxiv::before { content: "📝 "; }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.8rem;
+      text-align: center;
+      color: #444;
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1>Votre Nom</h1>
-<p class="description">Chercheur en intelligence artificielle et apprentissage automatique.</p>
-</header>
+  <header>
+    <h1>Corentin Fierobe</h1>
+    <p class="description"></p>
+  </header>
+
+  <main>
+    <ul class="publications">
+		
+	<p>, Journal de mathématique des élèves de l’ENS de Lyon, 2015. <a href="https://jmeenslyon.files.wordpress.com/2017/07/jmenouveau1.pdf">paper</a></p>
+      <li>
+        <h3>Le théorème de Lindemann-Weierstrass</h3>
+        <p class="meta">Journal de mathématique des élèves de l’ENS de Lyon, 2015</p>
+        <div class="links">
+          <a href="https://jmeenslyon.files.wordpress.com/2017/07/jmenouveau1.pdf" class="pdf">PDF</a>
+        </div>
+      </li>
+
+		<!--li>
+        <h3>Apprentissage contrastif pour la vision médicale</h3>
+        <p class="meta">IEEE TMI, 2024 — Avec A. Collaborateur, B. Collaboratrice</p>
+        <div class="links">
+          <a href="#" class="pdf">PDF</a>
+          <a href="https://doi.org/10.0000/example" target="_blank" class="doi">DOI</a>
+          <a href="#" class="code">Code</a>
+        </div>
+	</li-->
 
 
-<main>
-<ul class="publications">
-<li>
-<h3>Apprentissage contrastif pour la vision médicale</h3>
-<p class="meta">IEEE TMI, 2024 — Avec A. Collaborateur, B. Collaboratrice</p>
-<div class="links">
-<a href="#" class="pdf">PDF</a>
-<a href="https://doi.org/10.0000/example" target="_blank" class="doi">DOI</a>
-<a href="#" class="code">Code</a>
-</div>
-</li>
-<li>
-<h3>Optimisation robuste avec contraintes stochastiques</h3>
-<p class="meta">NeurIPS, 2023 — Avec C. Coauthor</p>
-<div class="links">
-<a href="#" class="pdf">PDF</a>
-<a href="https://arxiv.org/abs/0000.00000" target="_blank" class="arxiv">arXiv</a>
-</div>
-</li>
-<li>
-<h3>Notes sur les modèles fondamentaux</h3>
-<p class="meta">arXiv, 2025 — Votre Nom</p>
-<div class="links">
-<a href="https://arxiv.org/abs/0000.00001" target="_blank" class="arxiv">arXiv</a>
-</div>
-</li>
-</ul>
-</main>
 
+		
+      <li>
+        <h3>Optimisation robuste avec contraintes stochastiques</h3>
+        <p class="meta">NeurIPS, 2023 — Avec C. Coauthor</p>
+        <div class="links">
+          <a href="#" class="pdf">PDF</a>
+          <a href="https://arxiv.org/abs/0000.00000" target="_blank" class="arxiv">arXiv</a>
+        </div>
+      </li>
+      <li>
+        <h3>Notes sur les modèles fondamentaux</h3>
+        <p class="meta">arXiv, 2025 — Votre Nom</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/0000.00001" target="_blank" class="arxiv">arXiv</a>
+        </div>
+      </li>
+    </ul>
+  </main>
 
-<footer>
-© 2025 Votre Nom
-</footer>
+  <footer>
+    © 2025 Votre Nom
+  </footer>
 </body>
 	
 	<h2>Scientific contributions</h2>
