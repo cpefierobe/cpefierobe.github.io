@@ -1,74 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Publications – Votre Nom</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      line-height: 1.6;
-      color: #000;
-      max-width: 700px;
-      padding: 2rem;
-      margin: auto;
-      background: #fff;
-    }
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.25rem;
-    }
-    p.description {
-      margin-top: 0;
-      margin-bottom: 2rem;
-      font-size: 1rem;
-    }
-    ul.publications {
-      list-style: none;
-      padding: 0;
-    }
-    ul.publications li {
-      margin-bottom: 1.2rem;
-    }
-    ul.publications li h3 {
-      margin: 0;
-      font-size: 1rem;
-    }
-    .meta {
-      font-size: 0.9rem;
-      margin: 0.2rem 0;
-    }
-    .links a {
-      margin-right: 0.75rem;
-      font-size: 0.85rem;
-      color: #0000ee;
-      text-decoration: none;
-    }
-    .links a:hover {
-      text-decoration: underline;
-    }
-    .links a.pdf::before { content: "📄 "; }
-    .links a.doi::before { content: "🔑 "; }
-    .links a.code::before { content: "💻 "; }
-    .links a.arxiv::before { content: "📝 "; }
-    footer {
-      margin-top: 3rem;
-      font-size: 0.8rem;
-      text-align: center;
-      color: #444;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Publications – Votre Nom</title>
+<style>
+body {
+margin: 0;
+font-family: system-ui, sans-serif;
+line-height: 1.6;
+background: #f9fafb;
+color: #111827;
+max-width: 800px;
+padding: 2rem;
+margin-left: auto;
+margin-right: auto;
+}
+h1 {
+font-size: 2rem;
+margin-bottom: 0.25rem;
+}
+h2 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #111827;
+  border-bottom: 1px solid #d1d5db; /* ligne fine pour séparer */
+  padding-bottom: 0.25rem;
+}
+p.description {
+color: #4b5563;
+margin-top: 0;
+margin-bottom: 2rem;
+}
+ul.publications {
+list-style: none;
+padding: 0;
+}
+ul.publications li {
+margin-bottom: 1.5rem;
+}
+ul.publications li h3 {
+margin: 0;
+font-size: 1.05rem;
+}
+.meta {
+font-size: 0.9rem;
+color: #374151;
+margin: 0.25rem 0;
+}
+.links a {
+display: inline-block;
+margin-right: 0.75rem;
+font-size: 0.85rem;
+color: #2563eb;
+text-decoration: none;
+}
+.links a:hover {
+text-decoration: underline;
+}
+/* Icônes simples */
+.links a.pdf::before { content: "📄 "; }
+.links a.doi::before { content: "🔑 "; }
+.links a.code::before { content: "💻 "; }
+.links a.arxiv::before { content: "📝 "; }
+footer {
+margin-top: 3rem;
+font-size: 0.85rem;
+color: #6b7280;
+text-align: center;
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Corentin Fierobe</h1>
-    <p class="description"></p>
-  </header>
+<header>
+<h1>Corentin Fierobe</h1>
+<p class="description">Researcher in mathematics — dynamical systems, almost integrable systems, KAM theory<br>
+Postdoctoral researcher at Tor Vergata University in Rome<br>
+Contact : <span id="emel"></span></p>
+</header>
 
   <main>
+  <h2>Publications</h2>
     <ul class="publications">
 		
-	<p>, Journal de mathématique des élèves de l’ENS de Lyon, 2015. <a href="https://jmeenslyon.files.wordpress.com/2017/07/jmenouveau1.pdf">paper</a></p>
       <li>
         <h3>Le théorème de Lindemann-Weierstrass</h3>
         <p class="meta">Journal de mathématique des élèves de l’ENS de Lyon, 2015</p>
@@ -76,7 +91,80 @@
           <a href="https://jmeenslyon.files.wordpress.com/2017/07/jmenouveau1.pdf" class="pdf">PDF</a>
         </div>
       </li>
-
+      
+      <li>
+        <h3>On the Circumcenters of triangular orbits in elliptic billiard</h3>
+        <p class="meta">Journal of Dynamical and Control Systems,2021</p>
+        <div class="links">
+          <a href="https://doi.org/10.1007/s10883-021-09537-2" target="_blank" class="doi">DOI</a>
+        </div>
+      </li>
+      
+      <li>
+        <h3>Complex caustics of the elliptic billiard</h3>
+        <p class="meta">Arnold Mathematical Journal, 2020</p>
+        <div class="links">
+          <a href="https://doi.org/10.1007/s40598-020-00152-w" target="_blank" class="doi">DOI</a>
+        </div>
+	    </li>
+      
+      <li>
+        <h3>Open Problems on Billiards and Geometric Optics</h3>
+        <p class="meta">Arnold Mathematical Journal, 2022 — With Misha Bialy, Alexey Glutsyuk, Mark Levi, Alexander Plakhov, Sergei Tabachnikov</p>
+        <div class="links">
+          <a href="https://doi.org/10.1007/s40598-022-00198-y" target="_blank" class="doi">DOI</a>
+        </div>
+	    </li>
+	    
+	    <li>
+        <h3>On projective billiards with open subsets of triangular orbits</h3>
+        <p class="meta">Israel Journal of Mathematics, 2024 (accepted for publication in 2021)</p>
+        <div class="links">
+          <a href="https://doi.org/10.1007/s11856-024-2712-z" target="_blank" class="doi">DOI</a>
+        </div>
+	    </li>
+	    
+	    <li>
+        <h3>Examples of reflective projective billiards</h3>
+        <p class="meta">Discrete and Continuous Dynamical Systems, 2023</p>
+        <div class="links">
+          <a href="https://doi.org/10.3934/dcds.2024059" target="_blank" class="doi">DOI</a>
+        </div>
+	    </li>
+	    
+	    <li>
+        <h3>Lecture notes on Birkhoff billiards: dynamics, integrability and spectral rigidity</h3>
+        <p class="meta">In: Modern aspects of dynamical systems, Lecture notes in Mathematics, Springer (authors: Claudio Bonanno, Alfonso Sorrentino, Corinna Ulcigrai) — With Vadim Kaloshin and Alfonso Sorrentino</p>
+        <div class="links">
+          <a href="https://www.mat.uniroma2.it/~sorrenti/ewExternalFiles/CIME_billiards.pdf" class="pdf">PDF</a>
+          <a href="https://doi.org/10.1007/978-3-031-62014-0_1" target="_blank" class="doi">DOI</a>
+        </div>
+	    </li>
+	    
+	    <li>
+        <h3>Only quadrics have pseudo-caustics, on caustics of Riemannian, pseudo-Euclidean and projective billiards in higher dimensions</h3>
+        <p class="meta">To appear in Mathematische Zeitschrift, 2025</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2306.06757" target="_blank" class="arxiv">arXiv</a>
+        </div>
+	    </li>
+	    
+	    <li>
+        <h3>On the existence of periodic invariant curves for analytic families of twist maps and billiards</h3>
+        <p class="meta">Submitted to Revista Matemática Iberoamericana, 2024 — With Alfonso Sorrentino</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2407.17090" target="_blank" class="arxiv">arXiv</a>
+        </div>
+      </li>
+      
+      <li>
+        <h3>Two billiard domains whose billiard maps are Lazutkin conjugates are the same</h3>
+        <p class="meta"></p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/2503.19550" target="_blank" class="arxiv">arXiv</a>
+        </div>
+      </li>
+      
 		<!--li>
         <h3>Apprentissage contrastif pour la vision médicale</h3>
         <p class="meta">IEEE TMI, 2024 — Avec A. Collaborateur, B. Collaboratrice</p>
@@ -84,51 +172,23 @@
           <a href="#" class="pdf">PDF</a>
           <a href="https://doi.org/10.0000/example" target="_blank" class="doi">DOI</a>
           <a href="#" class="code">Code</a>
-        </div>
-	</li-->
-
-
-
-		
-      <li>
-        <h3>Optimisation robuste avec contraintes stochastiques</h3>
-        <p class="meta">NeurIPS, 2023 — Avec C. Coauthor</p>
-        <div class="links">
-          <a href="#" class="pdf">PDF</a>
-          <a href="https://arxiv.org/abs/0000.00000" target="_blank" class="arxiv">arXiv</a>
-        </div>
-      </li>
-      <li>
-        <h3>Notes sur les modèles fondamentaux</h3>
-        <p class="meta">arXiv, 2025 — Votre Nom</p>
-        <div class="links">
           <a href="https://arxiv.org/abs/0000.00001" target="_blank" class="arxiv">arXiv</a>
         </div>
-      </li>
+        <p>Diamond structures in invariant curves of analytic convex billiards, with Vadim Kaloshin and Frank Trujillo <a href="diamonds.pdf">preprint</a></p>
+			<p>Rigidity questions in outer length billiards, with Olga Bernardi and Luca Baracco <a href="outer.pdf">preprint</a></p>
+	  </li-->
     </ul>
   </main>
-
   <footer>
-    © 2025 Votre Nom
+    © 2025 Corentin Fierobe
   </footer>
+  
+  <script>
+// Email protégé contre les bots
+const user = "cpef";
+const domain = "gmx.de";
+const result = user + "@" + domain;
+document.getElementById("emel").innerHTML = result; //`<a href=\"mailto:${result}\">${result}</a>`;
+</script>
 </body>
-	
-	<h2>Scientific contributions</h2>
-			<p>Le théorème de Lindemann-Weierstrass, Journal de mathématique des élèves de l’ENS de Lyon, 2015. <a href="https://jmeenslyon.files.wordpress.com/2017/07/jmenouveau1.pdf">paper</a></p>
-			<p>On the Circumcenters of triangular orbits in elliptic billiard, Journal of Dynamical and Control Systems, 2021. <a href="https://doi.org/10.1007/s10883-021-09537-2">paper</a></p>
-			<p>Complex caustics of the elliptic billiard, Arnold Mathematical Journal, 2020. <a href="https://doi.org/10.1007/s40598-020-00152-w">paper</a></p>
-			<p>Open Problems on Billiards and Geometric Optics, Arnold Mathematical Journal, 2022. With Misha Bialy, Alexey Glutsyuk, Mark Levi, Alexander Plakhov, Sergei Tabachnikov <a href="https://doi.org/10.1007/s40598-022-00198-y">paper</a></p>
-			<p>On projective billiards with open subsets of triangular orbits, Israel Journal of Mathematics, accepted in 2020, published in 2024 <a href="https://doi.org/10.1007/s11856-024-2712-z">paper</a></p>
-			<p>Examples of reflective projective billiards, Discrete and Continuous Dynamical Systems, 2023. <a href="https://www.aimsciences.org/article/doi/10.3934/dcds.2024059">paper</a></p>
-			<p>Lecture notes on Birkhoff billiards: dynamics, integrability and spectral rigidity, with Vadim Kaloshin and Alfonso Sorrentino. In: Modern aspects of dynamical systems, Lecture notes in Mathematics, Springer (authors: Claudio Bonanno, Alfonso Sorrentino, Corinna Ulcigrai). <a href="https://doi.org/10.1007/978-3-031-62014-0_1">paper</a> <a href="https://www.mat.uniroma2.it/~sorrenti/ewExternalFiles/CIME_billiards.pdf">preprint</a></p>
-			<p>Only quadrics have pseudo-caustics, on caustics of Riemannian, pseudo-Euclidean and projective billiards in higher dimensions To appear in Mathematische Zeitschrift, 2023. <a href="https://arxiv.org/abs/2306.06757">arxiv</a></p>
-			
-			<h2>Preprints</h2>
-			<p>On the existence of periodic invariant curves for analytic families of twist maps and billiards, with Alfonso Sorrentino, Submitted to Revista Matemática Iberoamericana, 2024. <a href="https://arxiv.org/abs/2407.17090">arxiv</a></p>
-			<p>Deformational spectral rigidity of axially symmetric symplectic billiards, Submitted to Nonlinearity, 2024, with Alfonso Sorrentino and Amir Vig. <a href="https://arxiv.org/abs/2410.13777">arxiv</a></p>
-			<p>Two billiard domains whose billiard maps are Lazutkin conjugates are the same, <a href="https://arxiv.org/abs/2503.19550">arxiv</a></p>	
-
-			<h2>To appear soon</h2>
-			<p>Diamond structures in invariant curves of analytic convex billiards, with Vadim Kaloshin and Frank Trujillo <a href="diamonds.pdf">preprint</a></p>
-			<p>Rigidity questions in outer length billiards, with Olga Bernardi and Luca Baracco <a href="outer.pdf">preprint</a></p>
 </html>
