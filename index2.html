@@ -1,97 +1,136 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Publications – Votre Nom</title>
-<style>
-body {
-margin: 0;
-font-family: system-ui, sans-serif;
-line-height: 1.6;
-background: #f9fafb;
-color: #111827;
-max-width: 900px;
-padding: 2rem;
-margin-left: auto;
-margin-right: auto;
-}
-h1 {
-font-size: 2rem;
-margin-bottom: 0.25rem;
-}
-p.description {
-color: #4b5563;
-margin-top: 0;
-margin-bottom: 2rem;
-}
-ul.publications {
-list-style: none;
-padding: 0;
-}
-ul.publications li {
-background: white;
-border: 1px solid #e5e7eb;
-border-radius: 8px;
-padding: 1rem 1.25rem;
-margin-bottom: 1rem;
-}
-.pub-header {
-display: flex;
-justify-content: space-between;
-align-items: baseline;
-margin-bottom: 0.5rem;
-}
-.pub-header h3 {
-margin: 0;
-font-size: 1.1rem;
-flex: 1;
-}
-.pub-meta {
-font-size: 0.9rem;
-color: #6b7280;
-margin-left: 1rem;
-white-space: nowrap;
-}
-.authors {
-font-size: 0.95rem;
-color: #374151;
-margin: 0.25rem 0 0.5rem;
-}
-.links a {
-display: inline-block;
-margin-right: 0.75rem;
-font-size: 0.85rem;
-color: #2563eb;
-text-decoration: none;
-}
-.links a:hover {
-text-decoration: underline;
-}
-/* Icônes personnalisées */
-.links a.pdf::before { content: "📄 "; }
-.links a.doi::before { content: "🔑 "; }
-.links a.code::before { content: "💻 "; }
-.links a.arxiv::before { content: "📝 "; }
-footer {
-margin-top: 3rem;
-font-size: 0.85rem;
-color: #6b7280;
-text-align: center;
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Publications – Votre Nom</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      background: #f9fafb;
+      color: #111827;
+      max-width: 900px;
+      padding: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    p.description {
+      color: #4b5563;
+      margin-top: 0;
+      margin-bottom: 2rem;
+    }
+    ul.publications {
+      list-style: none;
+      padding: 0;
+    }
+    ul.publications li {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .pub-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+    .pub-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      flex: 1;
+    }
+    .pub-meta {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+    .authors {
+      font-size: 0.95rem;
+      color: #374151;
+      margin: 0.25rem 0 0.5rem;
+    }
+    .links a {
+      display: inline-block;
+      margin-right: 0.75rem;
+      font-size: 0.85rem;
+      color: #2563eb;
+      text-decoration: none;
+    }
+    .links a:hover {
+      text-decoration: underline;
+    }
+    /* Icônes personnalisées */
+    .links a.pdf::before { content: "📄 "; }
+    .links a.doi::before { content: "🔑 "; }
+    .links a.code::before { content: "💻 "; }
+    .links a.arxiv::before { content: "📝 "; }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: #6b7280;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-<header>
-<h1>Votre Nom</h1>
-<p class="description">Chercheur en intelligence artificielle et apprentissage automatique.</p>ee
-</header>
+  <header>
+    <h1>Votre Nom</h1>
+    <p class="description">Chercheur en intelligence artificielle et apprentissage automatique.</p>
+  </header>
 
+  <main>
+    <ul class="publications">
+      <li>
+        <div class="pub-header">
+          <h3>Apprentissage contrastif pour la vision médicale</h3>
+          <span class="pub-meta">IEEE TMI · 2024</span>
+        </div>
+        <p class="authors">Avec A. Collaborateur, B. Collaboratrice</p>
+        <div class="links">
+          <a href="#" class="pdf">PDF</a>
+          <a href="https://doi.org/10.0000/example" target="_blank" class="doi">DOI</a>
+          <a href="#" class="code">Code</a>
+        </div>
+      </li>
+      <li>
+        <div class="pub-header">
+          <h3>Optimisation robuste avec contraintes stochastiques</h3>
+          <span class="pub-meta">NeurIPS · 2023</span>
+        </div>
+        <p class="authors">Avec C. Coauthor</p>
+        <div class="links">
+          <a href="#" class="pdf">PDF</a>
+          <a href="https://arxiv.org/abs/0000.00000" target="_blank" class="arxiv">arXiv</a>
+        </div>
+      </li>
+      <li>
+        <div class="pub-header">
+          <h3>Notes sur les modèles fondamentaux</h3>
+          <span class="pub-meta">arXiv · 2025</span>
+        </div>
+        <p class="authors">Votre Nom</p>
+        <div class="links">
+          <a href="https://arxiv.org/abs/0000.00001" target="_blank" class="arxiv">arXiv</a>
+        </div>
+      </li>
+    </ul>
+  </main>
 
-<main>
+  <footer>
+    © 2025 Votre Nom
+  </footer>
 </body>
 
-<h2>Scientific contributions</h2>
+	<h2>Scientific contributions</h2>
 			<p>Le théorème de Lindemann-Weierstrass, Journal de mathématique des élèves de l’ENS de Lyon, 2015. <a href="https://jmeenslyon.files.wordpress.com/2017/07/jmenouveau1.pdf">paper</a></p>
 			<p>On the Circumcenters of triangular orbits in elliptic billiard, Journal of Dynamical and Control Systems, 2021. <a href="https://doi.org/10.1007/s10883-021-09537-2">paper</a></p>
 			<p>Complex caustics of the elliptic billiard, Arnold Mathematical Journal, 2020. <a href="https://doi.org/10.1007/s40598-020-00152-w">paper</a></p>
@@ -109,6 +148,4 @@ text-align: center;
 			<h2>To appear soon</h2>
 			<p>Diamond structures in invariant curves of analytic convex billiards, with Vadim Kaloshin and Frank Trujillo <a href="diamonds.pdf">preprint</a></p>
 			<p>Rigidity questions in outer length billiards, with Olga Bernardi and Luca Baracco <a href="outer.pdf">preprint</a></p>
-
-  
 </html>
