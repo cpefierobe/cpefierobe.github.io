@@ -27,7 +27,7 @@ function setup() {
   bgColor = color(bgColor);
   
   nb_sommets = int(random(3,10));
-  nb_rebonds = 3; //int(random(2,nb_sommets));
+  nb_rebonds = 2; //int(random(2,nb_sommets));
   
   bsh = new BillardProjectif();
   liste_des_points = new listePoint();
