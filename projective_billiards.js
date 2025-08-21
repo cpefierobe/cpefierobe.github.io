@@ -21,7 +21,7 @@ let bgColor;
 
 function setup() {
   var canvas = createCanvas(taille, taille);
-  canvas.parent('sketch');
+  canvas.parent('sketch-container');
 
   bgColor = window.getComputedStyle(document.body).backgroundColor;
   bgColor = color(bgColor);
