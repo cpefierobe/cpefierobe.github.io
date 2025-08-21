@@ -1,24 +1,20 @@
 let bgColor;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  // Créer le canvas à l'intérieur du div
+  let canvas = createCanvas(600, 400);
+  canvas.parent('sketch-container');
 
-  // Récupérer la couleur de fond du body
-  bgColor = color(window.getComputedStyle(document.body).backgroundColor);
+  // Récupérer la couleur de fond du div parent
+  const parentDiv = document.getElementById('sketch-container');
+  bgColor = color(window.getComputedStyle(parentDiv).backgroundColor || '#ffffff');
 
-  // Appliquer cette couleur comme fond
+  // Appliquer la couleur comme fond
   background(bgColor);
 }
 
 function draw() {
-  // Exemple : dessiner un cercle rouge au centre
   fill(255, 0, 0);
   noStroke();
   ellipse(width / 2, height / 2, 100, 100);
-}
-
-// Adapter la taille du canvas si la fenêtre change
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  background(bgColor);
 }
