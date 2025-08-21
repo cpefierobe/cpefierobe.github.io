@@ -2,19 +2,25 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>p5.js sur GitHub Pages</title>
+  <title>p5.js dans un div</title>
   <style>
-    /* Définir une couleur de fond pour tester */
     body {
-      background-color: #87ceeb; /* bleu ciel */
+      background-color: #f0f0f0;
       margin: 0;
-      padding: 0;
+      padding: 20px;
+    }
+
+    #sketch-container {
+      width: 600px;
+      height: 400px;
+      border: 2px solid #333;
     }
   </style>
-  <!-- Inclure p5.js depuis CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <script src="sketch.js" defer></script>
 </head>
 <body>
+  <h2>Exemple p5.js dans un div</h2>
+  <div id="sketch-container"></div>
 </body>
 </html>
