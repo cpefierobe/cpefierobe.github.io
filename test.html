@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>p5.js dans un div</title>
-  <style>
-    body {
-      background-color: #f0f0f0;
-      margin: 0;
-      padding: 20px;
-    }
-
-    #sketch-container {
-      width: 600px;
-      height: 400px;
-      border: 2px solid #333;
-    }
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
-  <script src="projective_billiards.js" defer></script>
+    <meta charset="UTF-8">
+    <title>Page Test</title>
 </head>
 <body>
-  <h2>Exemple p5.js dans un div</h2>
-  <div id="sketch-container"></div>
+    <h1>Bienvenue sur la page test</h1>
+
+    <h2 class="article">Article 1</h2>
+    <p>Contenu de l'article 1.</p>
+
+    <h2 class="article">Article 2</h2>
+    <p>Contenu de l'article 2.</p>
+
+    <h2 class="article">Article 3</h2>
+    <p>Contenu de l'article 3.</p>
+
+    <script>
+        // Extraire le texte du premier h1
+        const titrePrincipal = document.querySelector("h1").innerText;
+        console.log("Titre principal :", titrePrincipal);
+
+        // Extraire tous les titres h2 avec la classe "article"
+        const articles = document.querySelectorAll("h2.article");
+        articles.forEach((el, index) => {
+            console.log(`Article ${index + 1} :`, el.innerText);
+        });
+
+        // Extraire le contenu des paragraphes correspondant
+        const paragraphes = document.querySelectorAll("p");
+        paragraphes.forEach((p, i) => {
+            console.log(`Paragraphe ${i + 1} :`, p.innerText);
+        });
+    </script>
 </body>
 </html>
