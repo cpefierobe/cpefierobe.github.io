@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Publications – Votre Nom</title>
+<title>Corentin Fierobe — Researcher in mathematics</title>
 <style>
 body {
 margin: 0;
@@ -70,14 +70,24 @@ font-size: 0.85rem;
 color: #6b7280;
 text-align: center;
 }
+  .sidebar {
+    position: fixed;   /* reste collé à la fenêtre */
+    top: 100px;        /* distance depuis le haut */
+    left: 10px;        /* distance depuis la gauche */
+    width: 150px;      /* largeur du bloc */
+    font-size: 0.9rem;
+    color: #374151;
+  }
 </style>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.6/p5.js"></script>
+<script src="projective_billiards.js"></script>
 </head>
 <body>
 <header>
 <h1>Corentin Fierobe</h1>
 <p class="description">Researcher in mathematics — dynamical systems, almost integrable systems, KAM theory<br>
 Postdoctoral researcher at Tor Vergata University in Rome<br>
-Contact : <span id="emel"></span></p>
+<span id="emel"></span></p>
 </header>
 
   <main>
@@ -194,11 +204,12 @@ Contact : <span id="emel"></span></p>
     © 2025 Corentin Fierobe
   </footer>
   
+  <div class="sidebar" id="sketch"></div>
   <script>
 const user = "cpef";
 const domain = "gmx.de";
 const result = user + "@" + domain;
-document.getElementById("emel").innerHTML = result; //`<a href=\"mailto:${result}\">${result}</a>`;
+document.getElementById("emel").innerHTML = `<a href=\"mailto:${result}\" style=\"color: inherit; text-decoration: none; font-weight: normal;\">📧</a> ${result}`;
 </script>
 </body>
 </html>
