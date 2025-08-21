@@ -20,11 +20,11 @@ let set_contraintes = false;
 let bgColor;
 
 function setup() {
-  bgColor = window.getComputedStyle(document.body).backgroundColor;
-  bgColor = color(bgColor);
-
   var canvas = createCanvas(taille, taille);
   canvas.parent('sketch');
+
+  bgColor = window.getComputedStyle(document.body).backgroundColor;
+  bgColor = color(bgColor);
   
   nb_sommets = int(random(3,10));
   nb_rebonds = 3; //int(random(2,nb_sommets));
