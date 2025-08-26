@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cybercafé des Maths</title>
+  <style>
+    header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem; /* espace entre le logo et le texte */
+      margin-bottom: 2rem;
+    }
+    header img.logo {
+      max-height: 100px; /* taille du logo */
+    }
+    header h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+    p.description {
+      margin: 0.25rem 0 0 0;
+      color: #4b5563;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      line-height: 1.6;
+      background: #f9fafb;
+      color: #111827;
+      max-width: 800px;
+      padding: 2rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    p.description {
+      color: #4b5563;
+      margin-top: 0;
+      margin-bottom: 2rem;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid #d1d5db;
+      padding-bottom: 0.25rem;
+      
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1f2937; /* gris foncé */
+      margin: 1rem 0;
+    }
+    ul.events {
+      list-style: none;
+      padding: 0;
+    }
+    ul.events li {
+      margin-bottom: 1rem;
+    }
+    ul.events li h3 {
+      margin: 0;
+      font-size: 1.05rem;
+    }
+    .meta {
+      font-size: 0.9rem;
+      color: #374151;
+      margin: 0.25rem 0;
+    }
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    a.doc::before { content: "📄 "; }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.85rem;
+      color: #6b7280;
+      text-align: center;
+    }
+  .next {
+    text-align: center;
+    background: #f3f4f6;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+  }
+  .next-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .next-header img.logo {
+    max-height: 40px;
+  }
+  .next h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .level {
+    font-style: italic;
+    color: #6b7280;
+    margin: 0.25rem 0;
+  }
+  .summary {
+    font-weight: bold;
+    font-size: 0.95rem;
+    color: #1f2937; /* couleur légèrement plus foncée que la description */
+    margin: 0.25rem 0;
+  }
+  .summary a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .description-next {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin: 0.5rem 0 1rem 0;
+  }
+  .contact {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: #374151;
+  }
+  .contact a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .past {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    background: #f9fafb;
+    border-radius: 0.75rem;
+  }
+  .past h2 {
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937; /* gris foncé */
+    margin: 1rem 0;
+  }
+  .past h2:hover {
+    text-decoration: underline; /* petit effet au survol */
+  }
+  .past-list {
+    display: none; /* cachée par défaut */
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+  }
+  .past-list.visible {
+    display: block;
+  }
+  .past h3 {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+  }
+  .about {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    background: #f9fafb;
+    border-radius: 0.75rem;
+  }
+  .about a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .about p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+    color: #374151;
+  }
+  .speakers {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    background: #f9fafb;
+    border-radius: 0.75rem;
+  }
+  .speakers h2 {
+    margin-bottom: 1rem;
+  }
+  .speaker-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  .speaker {
+    flex: 1 1 200px;
+    max-width: 220px;
+    background: #f9fafb;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  .speaker img {
+    width: 100px;
+    height: 100px;
+    border-radius: 40%;
+    object-fit: cover;
+    margin-bottom: 0.75rem;
+  }
+  .speaker h3 {
+    margin: 0.5rem 0 0.25rem 0;
+    font-size: 1.1rem;
+  }
+  .speaker p {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin: 0;
+  }
+  footer a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+  </style>
+</head>
+<body>
+  <header>
+  <img src="logo.png" alt="Logo de l'événement" class="logo">
+  <div>
+    <h1>Cybercafé des Maths</h1>
+    <p class="description">Séances hebdomadaires de pratiques des maths, niveau lycée, pour préparer le bac et l'après-bac. En ligne. Gratuit.</p>
+  </div>
+  </header>
+
+  <main>
+    <section class="next">
+      <div class="next-header">
+        <h2>Prochaine séance</h2>
+      </div>
+      <h3>Mardi 2 septembre 2025, 17h-18h</h3>
+      <p class="summary">Séance d'exercices : les suites numériques au bac</p>
+      <p class="meta">Présentée par Corentin Fierobe</p>
+      <p class="level">Niveau : Première-Terminale</p>
+      <p class="description-next">
+        Cette séance portera sur la résolution d'exercices type-bac ponctuée par des rappels de cours. Nous nous concentrerons sur la résolution d'un exercice du BAC 2025 - exercice 4 partie A du document en lien.
+      </p>
+      <a href="ress_pedago/bac2025-1.pdf" target="_blank" class="doc">Sujet du BAC 2025, Métropole 1, spécialité mathématiques</a>
+
+      <p class="contact">📧 Pour s'inscrire et obtenir le lien visio, écrire à <span id="event-email"></span></p>
+    </section>
+    
+    <section class="past">
+      <h2 onclick="togglePast()">Événements passés ▼</h2>
+      <div id="past-list" class="past-list">
+      <p> Il n'y en a encore aucun pour l'année en cours.</p>
+        <!--article>
+          <h3>Mercredi 20 août 2025 – Article sur les réseaux de neurones</h3>
+          <p class="meta">Présenté par B. Étudiant</p>
+          <a href="#">Document</a>
+        </article>
+        <article>
+          <h3>Mercredi 13 août 2025 – Introduction aux transformers</h3>
+          <p class="meta">Présenté par C. Chercheuse</p>
+          <a href="#">Document</a>
+        </article-->
+      </div>
+    </section>
+    
+    <section class="about">
+      <h2>À propos du Cybercafé</h2>
+      <p>
+        Ce séminaire hebdomadaire (souvent le mercredi après-midi) est destiné aux élèves et étudiants voulant préparer le BAC et l'après-BAC.
+      </p>
+      <p style="text-align: center;">
+        Il est entièrement GRATUIT et EN LIGNE.
+      </p>
+      <p>
+        Chaque séance est animée par un intervenant et accompagnée de documents de référence que les participants peuvent préparer en avance s'ils le désirent. 
+        Pour participer à la séance à venir et obtenir le lien d'accès à la salle virtuelle, écrire à 
+      </p>
+      <p style="text-align: center;"><span id="about-email"></span></p>
+    </section>
+    
+    <section class="about">
+      <h2>Cours particuliers</h2>
+      <p>
+        Nos intervenants donnent aussi des cours particuliers en ligne, pour ceux qui désirent aborder d'autres notions, d'autres niveaux (lycée, prépa, université, ...), ou préparer un examen particulier (BAC, CAPES, Agrégation, etc.). Pour toute demande, écrire à <span id="cp-email"></span></p>
+    </section>
+    
+    <section class="speakers">
+      <h2>Intervenants</h2>
+      <div class="speaker-list">
+        <div class="speaker">
+          <img src="ress_web/profilCF.png" alt="Photo de CF">
+          <h3>Corentin Fierobe</h3>
+          <p>Chercheur agrégé en mathématiques (Université de Rome Tor Vergata).</p>
+        </div>
+        <div class="speaker">
+          <img src="ress_web/profilPE.png" alt="Photo de PE">
+          <h3>Pierrette Edgar</h3>
+          <p>Enseignante en prépa, agrégée de mathématiques.</p>
+        </div>
+    </section>
+    
+  </main>
+
+  <footer>
+    <p>© 2025 <a href="https://cpefierobe.github.io" target="_blank">Corentin Fierobe</a></p>
+  </footer>
+  
+  
+<script>
+  // Protection contre les bots
+  const evUser = "cybercafe.maths";
+  const evDomain = "lavache.com";
+  const evEmail = evUser + "@" + evDomain;
+  document.getElementById("event-email").innerHTML = 
+    `<a href="mailto:${evEmail}">${evEmail}</a>`;
+  document.getElementById("about-email").innerHTML = 
+    `<a href="mailto:${evEmail}">${evEmail}</a>`;
+  document.getElementById("cp-email").innerHTML = 
+    `<a href="mailto:${evEmail}">${evEmail}</a>`;
+</script>
+<script>
+  function togglePast() {
+    const pastList = document.getElementById("past-list");
+    pastList.classList.toggle("visible");
+  }
+</script>
+</body>
+</html>
