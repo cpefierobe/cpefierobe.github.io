@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rick's Safe</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        background: radial-gradient(circle at center, #060a0d, #000);
+        color: #00fff0;
+        font-family: "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+        transition: background 0.5s ease;
+      }
+
+      h1 {
+        font-size: 32px;
+        letter-spacing: 4px;
+        margin-bottom: 30px;
+        color: #00fff0;
+        text-shadow: 0 0 10px #00fff0, 0 0 20px #00fff0;
+      }
+
+      .flash-success {
+        background: radial-gradient(circle at center, #0ff, #000);
+      }
+
+      .flash-error {
+        background: radial-gradient(circle at center, #ff0040, #000);
+      }
+
+      .ui-zone {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+      }
+
+      input,
+      button {
+        background: rgba(0, 255, 240, 0.05);
+        border: 1px solid #00fff0;
+        color: #00fff0;
+        font-family: inherit;
+        padding: 8px 12px;
+        border-radius: 6px;
+        outline: none;
+      }
+
+      input:focus {
+        box-shadow: 0 0 8px #00fff0;
+      }
+
+      button {
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      button:hover {
+        background: #00fff0;
+        color: #000;
+      }
+
+      p {
+        text-align: center;
+      }
+
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-6px); }
+        40%, 80% { transform: translateX(6px); }
+      }
+
+      .shake {
+        animation: shake 0.3s;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>RICK'S SAFE</h1>
+    <div class="ui-zone" id="coffreZone"></div>
+
+    <script>
+      let s = "";
+      let input, button, msg;
+      let flashTimer = 0;
+      let flashColor = null;
+
+      function setup() {
+        const parentDiv = select("#coffreZone");
+        const cnv = createCanvas(400, 250);
+        cnv.parent(parentDiv);
+
+        // Génère une séquence aléatoire de 5 chiffres entre 1 et 5
+        for (let i = 0; i < 10; i++) s += floor(random(1, 4));
+
+        // Affiche la séquence
+        createP(s)
+          .style("font-size", "36px")
+          .style("margin", "16px 0 0 0")
+          .style("letter-spacing", "10px")
+          .parent(parentDiv);
+
+        input = createInput("");
+        input.attribute("placeholder", "······");
+        input.size(160);
+        input.parent(parentDiv);
+
+        button = createButton("Bestätigen");
+        button.parent(parentDiv);
+        button.mousePressed(valider);
+
+        msg = createP("").style("height", "20px").parent(parentDiv);
+
+        noLoop();
+      }
+
+      function draw() {
+        background(0, 10, 20);
+        stroke(0, 255, 240, 60);
+        strokeWeight(2);
+        noFill();
+        rect(50, 40, 300, 170, 15);
+
+        strokeWeight(1);
+        stroke(0, 255, 240, 30);
+        for (let i = 0; i < 5; i++) {
+          line(70 + i * 60, 50, 70 + i * 60, 200);
+        }
+
+        // Effet flash
+        if (flashTimer > 0) {
+          flashTimer--;
+          fill(flashColor);
+          rect(0, 0, width, height);
+        }
+      }
+
+      function audioactiveNext(seq) {
+        let res = "";
+        let count = 1;
+        for (let i = 0; i < seq.length; i++) {
+          if (seq[i] === seq[i + 1]) count++;
+          else {
+            res += count + seq[i];
+            count = 1;
+          }
+        }
+        return res;
+      }
+
+      function flash(color) {
+        flashColor = color;
+        flashTimer = 20;
+        loop();
+        setTimeout(() => noLoop(), 300);
+      }
+
+      function valider() {
+        const userInput = input.value().trim();
+        const correct = audioactiveNext(s);
+
+        if (userInput === correct) {
+          msg.html("✓").style("color", "#00fff0");
+          flash(color(0, 255, 240, 60));
+          document.body.classList.add("flash-success");
+          setTimeout(() => {
+            document.body.classList.remove("flash-success");
+            window.location.href = "tag2_lettres.html";
+          }, 1200);
+        } else {
+          msg.html("✗").style("color", "#ff0040");
+          input.value("");
+          flash(color(255, 0, 60, 80));
+          document.body.classList.add("flash-error");
+          document.body.classList.add("shake");
+          setTimeout(() => {
+            document.body.classList.remove("flash-error");
+            document.body.classList.remove("shake");
+          }, 400);
+        }
+      }
+    </script>
+  </body>
+</html>
+

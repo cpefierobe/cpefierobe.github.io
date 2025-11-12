@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QR Codes déroulants</title>
+  <title>QR Codes déroulants avec liens</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -44,11 +44,16 @@
       text-align: center;
     }
 
-    .qrcode img {
+    .qrcode a img {
       width: 150px;
       height: 150px;
       border-radius: 10px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    .qrcode a img:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -69,9 +74,13 @@
 
       const qrDiv = document.createElement('div');
       qrDiv.className = 'qrcode';
-      qrDiv.innerHTML = `<img src="qrcodes/tag${i}.png" alt="QR Code Tag ${i}">`;
+      qrDiv.innerHTML = `
+        <a href="tag${i}.html">
+          <img src="qrcodes/tag${i}.png" alt="QR Code Tag ${i}">
+        </a>
+      `;
 
-      // Au clic : bascule l’affichage du QR code
+      // Au clic sur le tag : afficher ou masquer le QR code
       tag.onclick = () => {
         const visible = qrDiv.style.display === 'block';
         qrDiv.style.display = visible ? 'none' : 'block';
@@ -84,3 +93,4 @@
   </script>
 </body>
 </html>
+

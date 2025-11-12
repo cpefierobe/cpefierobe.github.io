@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Elliptisches Billard — p5.js</title>
+  <style>
+    html,body{height:100%;margin:0;background:#222;color:#eee;font-family:Arial}
+    #defaultCanvas0{display:block;margin:0 auto}
+    .hint{position:fixed;left:10px;top:10px;background:rgba(0,0,0,0.4);padding:8px;border-radius:6px}
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+<div class="hint">
+  <strong>Steuerung</strong>: Klicken und Ziehen auf die weiße Kugel, um zu zielen / die Stärke einzustellen → Loslassen, um zu stoßen. <br>
+  <em>LEERTASTE</em> = Neustart • <em>C</em> = zentrieren
+</div>
+<script>
+// Elliptisches Billardspiel in p5.js — ein Level ohne Hindernisse
+// Autor: Assistant
+
+let table = {cx:400, cy:300, a:340, b:240};
+let cue, obj;
+let pocket;
+let dragging = false;
+let dragStart = null;
+let friction = 0.995;
+let score = false;
+let successTimer = 0;
+
+function setup(){
+  createCanvas(800,600);
+  resetGame();
+}
+
+function resetGame(){
+  table.cx = width/2; table.cy = height/2;
+  table.a = min(width,900)*0.42; table.b = min(height,700)*0.38;
+  cue = {x: table.cx - table.a*0.5, y: table.cy, r:14, vx:0, vy:0, color:[250,250,250]};
+  obj = {x: table.cx + table.a*0.25, y: table.cy-30, r:14, vx:0, vy:0, color:[200,30,30]};
+  pocket = {x: table.cx + table.a*0.9, y: table.cy, r:22};
+  dragging = false; dragStart = null; score = false; successTimer = 0;
+}
+
+function draw(){
+  background(30,30,40);
+  drawTable();
+  updateBalls();
+  drawObjects();
+  drawHUD();
+  if(score){ drawSuccessMessage(); }
+}
+
+function drawTable(){
+  push();translate(table.cx,table.cy);
+  noStroke();
+  fill(10,60,20);
+  ellipse(0,0,table.a*2+30,table.b*2+30);
+  fill(40,120,80);
+  stroke(180);
+  strokeWeight(2);
+  ellipse(0,0,table.a*2,table.b*2);
+  pop();
+  fill(10); noStroke();
+  ellipse(pocket.x,pocket.y,pocket.r*2,pocket.r*2);
+}
+
+function updateBalls(){
+  let balls = [cue,obj];
+  for(let b of balls){
+    b.x += b.vx;
+    b.y += b.vy;
+    b.vx *= friction;
+    b.vy *= friction;
+    if(abs(b.vx) < 0.0005) b.vx = 0;
+    if(abs(b.vy) < 0.0005) b.vy = 0;
+    handleEllipseCollision(b);
+  }
+  handleBallBallCollision(cue,obj);
+  if(!score && dist(obj.x,obj.y,pocket.x,pocket.y) < pocket.r){
+    score = true;
+    cue.vx = cue.vy = obj.vx = obj.vy = 0;
+    successTimer = frameCount;
+  }
+}
+
+function drawObjects(){
+  noFill(); stroke(0,0,0,60); strokeWeight(2);
+  ellipse(pocket.x,pocket.y,pocket.r*2+6,pocket.r*2+6);
+  drawBall(obj);
+  drawBall(cue);
+  if(dragging && dragStart){
+    stroke(255,200); strokeWeight(2);
+    line(cue.x,cue.y, mouseX, mouseY);
+    let power = dist(cue.x,cue.y, mouseX, mouseY);
+    noStroke(); fill(255,255,255,80);
+    ellipse(cue.x, cue.y, cue.r*2 + constrain(power,0,200), cue.r*2 + constrain(power,0,200));
+  }
+}
+
+function drawBall(b){
+  push();translate(b.x,b.y);
+  noStroke();
+  fill(b.color[0],b.color[1],b.color[2]);
+  ellipse(0,0,b.r*2,b.r*2);
+  fill(255,255,255,80);
+  ellipse(-b.r*0.4, -b.r*0.4, b.r*0.7, b.r*0.7);
+  pop();
+}
+
+function drawHUD(){
+  noStroke(); fill(255);
+  textSize(14);
+  textAlign(LEFT,TOP);
+  text("LEERTASTE = Neustart", 10, height-40);
+}
+
+function drawSuccessMessage(){
+  let alpha = map(sin((frameCount - successTimer) * 0.1), -1, 1, 100, 255);
+  textSize(26);
+  textAlign(CENTER,CENTER);
+  fill(255,220,0,alpha);
+  text("Morty, hör auf zu spielen, Dumkopf, die Zeit läuft!", width/2, height/2);
+  text("Geh mal vor den Tafel und benutz die Verschiebung X", width/2, height/2+50);
+}
+
+function handleEllipseCollision(b){
+  let nx = (b.x - table.cx) / table.a;
+  let ny = (b.y - table.cy) / table.b;
+  let insideVal = nx*nx + ny*ny;
+  if(insideVal > 1){
+    let px = b.x - table.cx; let py = b.y - table.cy;
+    let nxn = px / (table.a*table.a);
+    let nyn = py / (table.b*table.b);
+    let nlen = sqrt(nxn*nxn + nyn*nyn);
+    if(nlen == 0) return;
+    nxn /= nlen; nyn /= nlen;
+    while(((b.x - table.cx)/table.a)**2 + ((b.y - table.cy)/table.b)**2 > 1){
+      b.x -= nxn*0.5; b.y -= nyn*0.5;
+    }
+    reflectVelocity(b, nxn, nyn);
+    b.vx *= 0.98; b.vy *= 0.98;
+  }
+}
+
+function reflectVelocity(b, nxn, nyn){
+  let vdotn = b.vx*nxn + b.vy*nyn;
+  b.vx = b.vx - 2*vdotn*nxn;
+  b.vy = b.vy - 2*vdotn*nyn;
+}
+
+function handleBallBallCollision(a,b){
+  let dx = b.x - a.x; let dy = b.y - a.y; let d = sqrt(dx*dx + dy*dy);
+  let minD = a.r + b.r;
+  if(d < minD && d > 0){
+    let overlap = (minD - d) / 2;
+    let nx = dx / d, ny = dy / d;
+    a.x -= nx * overlap; a.y -= ny * overlap;
+    b.x += nx * overlap; b.y += ny * overlap;
+    let va = a.vx*nx + a.vy*ny;
+    let vb = b.vx*nx + b.vy*ny;
+    let vaAfter = vb; let vbAfter = va;
+    let da = vaAfter - va; let db = vbAfter - vb;
+    a.vx += da * nx; a.vy += da * ny;
+    b.vx += db * nx; b.vy += db * ny;
+    a.vx *= 0.999; a.vy *= 0.999; b.vx *= 0.999; b.vy *= 0.999;
+  }
+}
+
+function mousePressed(){
+  if(dist(mouseX,mouseY,cue.x,cue.y) < cue.r+5 && (cue.vx==0 && cue.vy==0)){
+    dragging = true; dragStart = {x:mouseX,y:mouseY};
+  }
+}
+
+function mouseReleased(){
+  if(dragging && dragStart){
+    let force = createVector(cue.x - mouseX, cue.y - mouseY);
+    let scale = 0.08;
+    cue.vx += force.x * scale;
+    cue.vy += force.y * scale;
+  }
+  dragging = false; dragStart = null;
+}
+
+function keyPressed(){
+  if(key == ' '){ resetGame(); }
+  if(key == 'c' || key == 'C'){
+    cue.x = table.cx - table.a*0.5; cue.y = table.cy; cue.vx = cue.vy = 0;
+    obj.x = table.cx + table.a*0.25; obj.y = table.cy-30; obj.vx = obj.vy = 0;
+  }
+}
+</script>
+</body>
+</html>
+

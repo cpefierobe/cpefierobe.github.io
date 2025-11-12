@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Im Koffer von Rick</title>
+  <style>
+    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;line-height:1.45}
+    body{margin:24px;background:#f7f7fb;color:#111}
+    .card{max-width:760px;margin:0 auto;background:white;border-radius:12px;padding:20px 22px;box-shadow:0 6px 20px rgba(16,24,40,0.08)}
+    h1{font-size:1.25rem;margin:0 0 12px}
+    p.lead{margin:0 0 18px;color:#374151}
+    .links{display:flex;gap:12px;flex-wrap:wrap}
+    .links a{display:inline-block;padding:8px 12px;border-radius:8px;text-decoration:none;background:#eef2ff;color:#312e81;font-weight:600;border:1px solid rgba(49,46,129,0.08)}
+    details{margin-top:14px;border-radius:8px;padding:12px;background:#fafafa;border:1px solid #e6e9ef}
+    summary{list-style:none;cursor:default;outline:none}
+    .letter-content{margin-top:10px}
+    .svg-image{max-width:100%;height:auto;border-radius:8px;border:1px solid #e2e8f0}
+    .muted{color:#6b7280;font-size:0.95rem}
+    .footer{margin-top:18px;font-size:0.9rem;color:#6b7280}
+    /* simple transition for reveal */
+    details[open] .letter-content{animation:fadeIn .18s ease-out}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <h1>Im Koffer von Rick</h1>
+    <p class="lead">Im Koffer von Rick befinden sich drei Briefe. </p>
+
+    <nav class="links" aria-label="Briefliste">
+      <a href="#letter1" class="toggle" data-target="letter1">Brief 1</a>
+      <a href="#letter2" class="toggle" data-target="letter2">Brief 2</a>
+      <a href="#letter3" class="toggle" data-target="letter3">Brief 3</a>
+    </nav>
+
+    <!-- Details-blocks provide accessible collapse behaviour; links will toggle them via JS -->
+    <details id="letter1" aria-labelledby="link-letter1">
+      <summary id="link-letter1">Brief 1 — Kurzer Text</summary>
+      <div class="letter-content">
+        <p>Lieber Freund,</p>
+        <p>dies ist ein kurzer handgeschriebener Brief. Ich hoffe, diese Zeilen finden dich wohl. Vergiss niemals, woher du kommst — und wohin du gehen willst.</p>
+        <p class="muted">— R.</p>
+      </div>
+    </details>
+
+    <details id="letter2" aria-labelledby="link-letter2">
+      <summary id="link-letter2">Brief 2 — Bild</summary>
+      <div class="letter-content">
+        <!-- Simple inline SVG as placeholder image -->
+        <figure>
+          <svg class="svg-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Skizze eines Briefs">
+            <rect width="600" height="360" rx="12" fill="#ffffff" stroke="#e6e9ef"/>
+            <g transform="translate(40,40)">
+              <rect width="520" height="280" rx="8" fill="#fbfbff" stroke="#eef2ff"/>
+              <rect x="28" y="24" width="420" height="12" rx="6" />
+              <rect x="28" y="50" width="360" height="12" rx="6" />
+              <rect x="28" y="82" width="480" height="12" rx="6" />
+              <rect x="28" y="114" width="320" height="12" rx="6" />
+              <circle cx="460" cy="200" r="44" fill="#eef2ff" stroke="#d6dbff"/>
+              <text x="460" y="206" font-size="30" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle">✉</text>
+            </g>
+          </svg>
+          <figcaption class="muted">Eine gezeichnete Version des Inhalts von Brief 2.</figcaption>
+        </figure>
+      </div>
+    </details>
+
+    <details id="letter3" aria-labelledby="link-letter3">
+      <summary id="link-letter3">Brief 3 — Längerer Text</summary>
+      <div class="letter-content">
+        <p>Liebe(r) Empfänger(in),</p>
+        <p>dieser Brief enthält mehr Details: Erinnerungen an die Reise, eine Liste mit Namen und einen kleinen Hinweis. Wenn du diesen Brief liest, dann weißt du, dass etwas Wertvolles gut versteckt wurde.</p>
+        <ol>
+          <li>Der erste Schritt ist immer das Finden.</li>
+          <li>Der zweite Schritt ist, leise zu sein.</li>
+          <li>Der dritte Schritt ist Vertrauen.</li>
+        </ol>
+        <p class="muted">— In alter Freundschaft</p>
+      </div>
+    </details>
+
+  </main>
+
+  <script>
+    // Enhance link behavior: clicking a link toggles the corresponding <details> element.
+    document.querySelectorAll('a.toggle').forEach(link => {
+      const targetId = link.dataset.target;
+      const target = document.getElementById(targetId);
+      if(!target) return;
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Toggle open attribute
+        const isOpen = target.hasAttribute('open');
+        // Close other details (optional): comment out to allow multiple open
+        document.querySelectorAll('details').forEach(d => d.removeAttribute('open'));
+        if(!isOpen) target.setAttribute('open', '');
+        // Move focus to the details element for accessibility
+        target.scrollIntoView({behavior: 'smooth', block: 'center'});
+        target.querySelector('.letter-content')?.focus();
+      });
+    });
+
+    // Allow Enter/Space on links to toggle (already handled by click), and ensure keyboard users can interact.
+  </script>
+</body>
+</html>
+
