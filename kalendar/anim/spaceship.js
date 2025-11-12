@@ -15,7 +15,7 @@ let voidStartTime;
 let boxPos;
 let showHint = false;
 let hintStartTime;
-let targetAsteroids = 1;
+let targetAsteroids = 50;
 
 // Storytext
 let story = [
