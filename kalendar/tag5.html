@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Caesar-Verschlüsselung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 25px;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        th {
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Caesar-Verschlüsselung</h2>
+
+<label>Text eingeben:</label><br>
+<input type="text" id="text">
+
+<label>Verschiebung (z.B. 3):</label><br>
+<input type="number" id="shift">
+
+<button onclick="encode()">Verschlüsseln</button>
+
+<div id="output"></div>
+
+<h3>Alphabet & Index-Tabelle</h3>
+<p>Das folgende Alphabet wird benutzt (Index = Position):</p>
+
+<table id="alphaTable"></table>
+
+<script>
+// Neues Alphabet mit ä, ö, ü, ß
+const alphabet = "abcdefghijklmnopqrstuvwxyzäöüß0123456789";
+
+function caesarEncode(text, shift) {
+    text = text.toLowerCase();
+    let result = "";
+
+    for (let ch of text) {
+        if (alphabet.includes(ch)) {
+            let index = alphabet.indexOf(ch);
+            let newIndex = (index + shift) % alphabet.length;
+            result += alphabet[newIndex];
+        } else {
+            result += ch;
+        }
+    }
+    return result;
+}
+
+function encode() {
+    const text = document.getElementById("text").value;
+    const shift = parseInt(document.getElementById("shift").value, 10);
+
+    const output = caesarEncode(text, shift);
+    document.getElementById("output").textContent = "Verschlüsselter Text: " + output;
+}
+</script>
+
+<div>
+<table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
+  <tr style="background: #111;">
+    <th style="border:1px solid #ccc; padding:6px;">Index</th>
+    <th style="border:1px solid #ccc; padding:6px;">Buchtaben</th>
+    <th style="border:1px solid #ccc; padding:6px;">Index</th>
+    <th style="border:1px solid #ccc; padding:6px;">Buchstaben</th>
+  </tr>
+
+  <!-- a-z -->
+  <tr><td style="border:1px solid #ccc; padding:6px;">0</td><td style="border:1px solid #ccc; padding:6px;">a</td><td style="border:1px solid #ccc; padding:6px;">26</td><td style="border:1px solid #ccc; padding:6px;">ä</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">b</td><td style="border:1px solid #ccc; padding:6px;">27</td><td style="border:1px solid #ccc; padding:6px;">ö</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">c</td><td style="border:1px solid #ccc; padding:6px;">28</td><td style="border:1px solid #ccc; padding:6px;">ü</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">d</td><td style="border:1px solid #ccc; padding:6px;">29</td><td style="border:1px solid #ccc; padding:6px;">ß</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">4</td><td style="border:1px solid #ccc; padding:6px;">e</td><td style="border:1px solid #ccc; padding:6px;">30</td><td style="border:1px solid #ccc; padding:6px;">0</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">5</td><td style="border:1px solid #ccc; padding:6px;">f</td><td style="border:1px solid #ccc; padding:6px;">31</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">6</td><td style="border:1px solid #ccc; padding:6px;">g</td><td style="border:1px solid #ccc; padding:6px;">32</td><td style="border:1px solid #ccc; padding:6px;">2</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">7</td><td style="border:1px solid #ccc; padding:6px;">h</td><td style="border:1px solid #ccc; padding:6px;">33</td><td style="border:1px solid #ccc; padding:6px;">3</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">8</td><td style="border:1px solid #ccc; padding:6px;">i</td><td style="border:1px solid #ccc; padding:6px;">34</td><td style="border:1px solid #ccc; padding:6px;">4</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">9</td><td style="border:1px solid #ccc; padding:6px;">j</td><td style="border:1px solid #ccc; padding:6px;">35</td><td style="border:1px solid #ccc; padding:6px;">5</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">10</td><td style="border:1px solid #ccc; padding:6px;">k</td><td style="border:1px solid #ccc; padding:6px;">36</td><td style="border:1px solid #ccc; padding:6px;">6</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">11</td><td style="border:1px solid #ccc; padding:6px;">l</td><td style="border:1px solid #ccc; padding:6px;">37</td><td style="border:1px solid #ccc; padding:6px;">7</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">12</td><td style="border:1px solid #ccc; padding:6px;">m</td><td style="border:1px solid #ccc; padding:6px;">38</td><td style="border:1px solid #ccc; padding:6px;">8</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">13</td><td style="border:1px solid #ccc; padding:6px;">n</td><td style="border:1px solid #ccc; padding:6px;">39</td><td style="border:1px solid #ccc; padding:6px;">9</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">14</td><td style="border:1px solid #ccc; padding:6px;">o</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">15</td><td style="border:1px solid #ccc; padding:6px;">p</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">16</td><td style="border:1px solid #ccc; padding:6px;">q</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">17</td><td style="border:1px solid #ccc; padding:6px;">r</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">18</td><td style="border:1px solid #ccc; padding:6px;">s</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">19</td><td style="border:1px solid #ccc; padding:6px;">t</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">20</td><td style="border:1px solid #ccc; padding:6px;">u</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">21</td><td style="border:1px solid #ccc; padding:6px;">v</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">22</td><td style="border:1px solid #ccc; padding:6px;">w</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">23</td><td style="border:1px solid #ccc; padding:6px;">x</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">24</td><td style="border:1px solid #ccc; padding:6px;">y</td><td></td><td></td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">25</td><td style="border:1px solid #ccc; padding:6px;">z</td><td></td><td></td></tr>
+</table>
+</div>
+</body>
+</html>
+
