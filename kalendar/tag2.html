@@ -2,7 +2,7 @@
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
-    <title>Rick's Safe</title>
+    <title>Tag 2 - Rick's Safe</title>
     <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
     <style>
       body {
@@ -84,7 +84,7 @@
     </style>
   </head>
   <body>
-    <h1>RICK'S SAFE</h1>
+    <h1>TAG 2 - RICK'S SAFE</h1>
     <div class="ui-zone" id="coffreZone"></div>
 
     <script>
@@ -98,8 +98,8 @@
         const cnv = createCanvas(400, 250);
         cnv.parent(parentDiv);
 
-        // Génère une séquence aléatoire de 5 chiffres entre 1 et 5
-        for (let i = 0; i < 10; i++) s += floor(random(1, 4));
+        // Génère une séquence aléatoire de 5 chiffres entre 1 et 2
+        for (let i = 0; i < 5; i++) s += floor(random(1, 4));
 
         // Affiche la séquence
         createP(s)

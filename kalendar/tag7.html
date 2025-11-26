@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Caesar-Verschlüsselung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 25px;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        th {
+            background: #eee;
+        }
+        input, button {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+
+<h2>Logique audioactive</h2>
+
+<h3>La suite de Conway</h3>
+
+<p>En 1977, en marge es olympiades mathématiques de Belgrade est proposée une suite mystérieuse de termes, dont est dit qu'ils suivent une logique audioactive.</p>
+
+<p>Le tableau suivant présente les premier termes :</p>
+
+<div>
+<table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
+  <tr style="background: #111;">
+    <th style="border:1px solid #ccc; padding:6px;">Numéro</th>
+    <th style="border:1px solid #ccc; padding:6px;">Terme de la suite</th>
+  </tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">0</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">11</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">21</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">1211</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">4</td><td style="border:1px solid #ccc; padding:6px;">111221</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">5</td><td style="border:1px solid #ccc; padding:6px;">312211</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">6</td><td style="border:1px solid #ccc; padding:6px;">13112221</td></tr>
+</table>
+</div>
+
+<p>Pour un terme donné, le terme suivant est obtenu en lisant à haute voix le nombre de termes y apparaissant dans l'ordre.</p>
+
+<p>La suite a été étudiée notamment par le célèbre mathématicien John Conway en 1986.</p>
+
+<h3>Quelques propriétés</h3>
+
+<p>Malgré le mystère entourant la définition de cette suite, on en connait certaines propriétés. Les études portent notamment sur l'étude du nombre de chiffres de chaque terme.</p>
+
+<p><b>Propriété 1. </b>Les seuls chiffres qui apparaissent sont 1, 2 ou 3.</p>
+
+<p><b>Propriété 2. </b>Chaque terme, hormis le premier possède un nombre paire de chiffres.</p>
+
+<p><b>Propriété 3. </b>Le nombre de chiffre dans chaque terme de la suite est croissant.</p>
+
+<h3>Généralisations</h3>
+
+<p>On peut généraliser la suite de Conway en suivant la même logique audioactive: par exemple, le terme suivant <b>2221133111</b> est donné par <b>32212331</b>.</p>
+
+<p>L'application suivante donne le terme suivant le term entré dans le formulaire:</p>
+
+<input type="text" id="inputSeq" placeholder="Entrez une suite (ex: 1211)">
+  <button onclick="nextTerm()">Obtenir le terme suivant</button>
+
+  <div id="result"></div>
+
+  <script>
+    function lookAndSay(seq) {
+      let result = "";
+      let i = 0;
+
+      while (i < seq.length) {
+        let count = 1;
+
+        while (i + 1 < seq.length && seq[i] === seq[i + 1]) {
+          count++;
+          i++;
+        }
+
+        result += count + seq[i];
+        i++;
+      }
+
+      return result;
+    }
+
+    function nextTerm() {
+      const input = document.getElementById("inputSeq").value.trim();
+      if (!/^\d+$/.test(input)) {
+        document.getElementById("result").innerText = "Veuillez entrer uniquement des chiffres.";
+        return;
+      }
+
+      const next = lookAndSay(input);
+      document.getElementById("result").innerText = "Terme suivant : " + next;
+    }
+  </script>
+
+</body>
+</html>
+

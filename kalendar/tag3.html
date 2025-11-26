@@ -14,23 +14,20 @@
 <body>
 <div class="hint">
   Tippen und ziehen auf die weiße Kugel, um zu zielen / die Stärke einzustellen → loslassen, um zu stoßen. <br>
-  Tippe auf die obere linke Ecke zum Neustart.
+  Tippe oben links zum Neustart.
 </div>
 <script>
-// Elliptisches Billardspiel für Smartphones — vertikal
 let table = {cx:0, cy:0, a:0, b:0};
 let cue, obj;
 let pocket;
 let dragging = false;
-let dragStart = null;
+let startTouch = null;
 let friction = 0.995;
 let score = false;
 let successTimer = 0;
 
 function setup(){
-  let canvasWidth = window.innerWidth;
-  let canvasHeight = window.innerHeight;
-  createCanvas(canvasWidth, canvasHeight);
+  createCanvas(windowWidth, windowHeight);
   table.cx = width/2; table.cy = height/2;
   table.a = width*0.42; table.b = height*0.38;
   resetGame();
@@ -40,7 +37,7 @@ function resetGame(){
   cue = {x: table.cx - table.a*0.5, y: table.cy, r:14, vx:0, vy:0, color:[250,250,250]};
   obj = {x: table.cx + table.a*0.25, y: table.cy-30, r:14, vx:0, vy:0, color:[200,30,30]};
   pocket = {x: table.cx + table.a*0.9, y: table.cy, r:22};
-  dragging = false; dragStart = null; score = false; successTimer = 0;
+  dragging = false; startTouch = null; score = false; successTimer = 0;
 }
 
 function draw(){
@@ -48,21 +45,15 @@ function draw(){
   drawTable();
   updateBalls();
   drawObjects();
-  if(score){ drawSuccessMessage(); }
+  if(score) drawSuccessMessage();
 }
 
 function drawTable(){
   push();translate(table.cx,table.cy);
-  noStroke();
-  fill(10,60,20);
-  ellipse(0,0,table.a*2+30,table.b*2+30);
-  fill(40,120,80);
-  stroke(180);
-  strokeWeight(2);
-  ellipse(0,0,table.a*2,table.b*2);
+  noStroke(); fill(10,60,20); ellipse(0,0,table.a*2+30,table.b*2+30);
+  fill(40,120,80); stroke(180); strokeWeight(2); ellipse(0,0,table.a*2,table.b*2);
   pop();
-  fill(10); noStroke();
-  ellipse(pocket.x,pocket.y,pocket.r*2,pocket.r*2);
+  fill(10); noStroke(); ellipse(pocket.x,pocket.y,pocket.r*2,pocket.r*2);
 }
 
 function updateBalls(){
@@ -70,93 +61,72 @@ function updateBalls(){
   for(let b of balls){
     b.x += b.vx; b.y += b.vy;
     b.vx *= friction; b.vy *= friction;
-    if(abs(b.vx) < 0.0005) b.vx = 0;
-    if(abs(b.vy) < 0.0005) b.vy = 0;
+    if(abs(b.vx)<0.0005) b.vx=0;
+    if(abs(b.vy)<0.0005) b.vy=0;
     handleEllipseCollision(b);
   }
   handleBallBallCollision(cue,obj);
-  if(!score && dist(obj.x,obj.y,pocket.x,pocket.y) < pocket.r){
-    score = true;
-    cue.vx = cue.vy = obj.vx = obj.vy = 0;
-    successTimer = frameCount;
+  if(!score && dist(obj.x,obj.y,pocket.x,pocket.y)<pocket.r){
+    score=true; cue.vx=cue.vy=obj.vx=obj.vy=0; successTimer=frameCount;
   }
 }
 
 function drawObjects(){
-  noFill(); stroke(0,0,0,60); strokeWeight(2);
-  ellipse(pocket.x,pocket.y,pocket.r*2+6,pocket.r*2+6);
+  noFill(); stroke(0,0,0,60); strokeWeight(2); ellipse(pocket.x,pocket.y,pocket.r*2+6,pocket.r*2+6);
   drawBall(obj); drawBall(cue);
-  if(dragging && dragStart){
-    stroke(255,200); strokeWeight(2);
-    line(cue.x,cue.y, dragStart.x, dragStart.y);
-    let power = dist(cue.x,cue.y, dragStart.x, dragStart.y);
-    noStroke(); fill(255,255,255,80);
-    ellipse(cue.x, cue.y, cue.r*2 + constrain(power,0,200), cue.r*2 + constrain(power,0,200));
+  if(dragging && startTouch){
+    stroke(255,200); strokeWeight(2); line(cue.x,cue.y,startTouch.x,startTouch.y);
+    let power=dist(cue.x,cue.y,startTouch.x,startTouch.y);
+    noStroke(); fill(255,255,255,80); ellipse(cue.x,cue.y,cue.r*2+constrain(power,0,200),cue.r*2+constrain(power,0,200));
   }
 }
 
 function drawBall(b){
-  push();translate(b.x,b.y);
-  noStroke(); fill(b.color[0],b.color[1],b.color[2]);
-  ellipse(0,0,b.r*2,b.r*2);
-  fill(255,255,255,80);
-  ellipse(-b.r*0.4, -b.r*0.4, b.r*0.7, b.r*0.7);
-  pop();
+  push();translate(b.x,b.y); noStroke(); fill(b.color[0],b.color[1],b.color[2]); ellipse(0,0,b.r*2,b.r*2);
+  fill(255,255,255,80); ellipse(-b.r*0.4,-b.r*0.4,b.r*0.7,b.r*0.7); pop();
 }
 
 function drawSuccessMessage(){
-  let alpha = map(sin((frameCount - successTimer) * 0.1), -1, 1, 100, 255);
-  textSize(26); textAlign(CENTER,CENTER);
-  fill(255,220,0,alpha);
+  let alpha = map(sin((frameCount-successTimer)*0.1),-1,1,100,255);
+  textSize(26); textAlign(CENTER,CENTER); fill(255,220,0,alpha);
   text("Super! Die Kugel ist im Loch! Tippe oben links zum Neustart.", width/2, height/2);
 }
 
 function handleEllipseCollision(b){
-  let nx = (b.x - table.cx) / table.a; let ny = (b.y - table.cy) / table.b;
-  if(nx*nx + ny*ny > 1){
-    let px = b.x - table.cx; let py = b.y - table.cy;
-    let nxn = px / (table.a*table.a); let nyn = py / (table.b*table.b);
-    let nlen = sqrt(nxn*nxn + nyn*nyn);
-    if(nlen == 0) return; nxn/=nlen; nyn/=nlen;
-    while(((b.x - table.cx)/table.a)**2 + ((b.y - table.cy)/table.b)**2 > 1){ b.x-=nxn*0.5; b.y-=nyn*0.5; }
-    reflectVelocity(b,nxn,nyn); b.vx*=0.98; b.vy*=0.98;
+  let nx=(b.x-table.cx)/table.a; let ny=(b.y-table.cy)/table.b;
+  if(nx*nx+ny*ny>1){
+    let px=b.x-table.cx; let py=b.y-table.cy; let nxn=px/(table.a*table.a); let nyn=py/(table.b*table.b);
+    let nlen=sqrt(nxn*nxn+nyn*nyn); if(nlen==0) return; nxn/=nlen; nyn/=nlen;
+    while(((b.x-table.cx)/table.a)**2+((b.y-table.cy)/table.b)**2>1){b.x-=nxn*0.5;b.y-=nyn*0.5;}
+    reflectVelocity(b,nxn,nyn); b.vx*=0.98;b.vy*=0.98;
   }
 }
 
-function reflectVelocity(b, nxn, nyn){
-  let vdotn = b.vx*nxn + b.vy*nyn;
-  b.vx -= 2*vdotn*nxn; b.vy -= 2*vdotn*nyn;
-}
+function reflectVelocity(b,nxn,nyn){ let vdotn=b.vx*nxn+b.vy*nyn; b.vx-=2*vdotn*nxn; b.vy-=2*vdotn*nyn; }
 
 function handleBallBallCollision(a,b){
-  let dx=b.x-a.x, dy=b.y-a.y, d=sqrt(dx*dx+dy*dy), minD=a.r+b.r;
-  if(d<minD && d>0){
-    let overlap=(minD-d)/2, nx=dx/d, ny=dy/d;
-    a.x-=nx*overlap; a.y-=ny*overlap; b.x+=nx*overlap; b.y+=ny*overlap;
-    let va=a.vx*nx+a.vy*ny, vb=b.vx*nx+b.vy*ny, vaAfter=vb, vbAfter=va;
-    let da=vaAfter-va, db=vbAfter-vb; a.vx+=da*nx; a.vy+=da*ny; b.vx+=db*nx; b.vy+=db*ny;
-    a.vx*=0.999; a.vy*=0.999; b.vx*=0.999; b.vy*=0.999;
-  }
-}
+  let dx=b.x-a.x,dy=b.y-a.y,d=sqrt(dx*dx+dy*dy),minD=a.r+b.r;
+  if(d<minD && d>0){ let overlap=(minD-d)/2,nx=dx/d,ny=dy/d; a.x-=nx*overlap;a.y-=ny*overlap;b.x+=nx*overlap;b.y+=ny*overlap;
+  let va=a.vx*nx+a.vy*ny,vb=b.vx*nx+b.vy*ny,vaAfter=vb,vbAfter=va; let da=vaAfter-va,db=vbAfter-vb; a.vx+=da*nx;a.vy+=da*ny;b.vx+=db*nx;b.vy+=db*ny; a.vx*=0.999;a.vy*=0.999;b.vx*=0.999;b.vy*=0.999;}}
 
-// --- Touch Input ---
-function touchStarted(){
+
+
+
+function mousePressed(){
   if(touchX<50 && touchY<50){ resetGame(); return false; }
   if(dist(touchX,touchY,cue.x,cue.y)<cue.r+10 && cue.vx==0 && cue.vy==0){
-    dragging=true; dragStart={x:touchX,y:touchY};
-    return false;
+    dragging=true; startTouch={x:touchX,y:touchY}; //return false;
   }
+  if(dragging){ startTouch={x:touchX,y:touchY}; return false; }
 }
-function touchMoved(){
-  if(dragging){ dragStart={x:touchX,y:touchY}; return false; }
-}
-function touchEnded(){
-  if(dragging && dragStart){
-    let force = createVector(cue.x - dragStart.x, cue.y - dragStart.y);
-    let scale = 0.08; cue.vx+=force.x*scale; cue.vy+=force.y*scale;
+
+function mouseReleased(){
+  if(dragging && startTouch){
+    let force=createVector(cue.x-startTouch.x,cue.y-startTouch.y); let scale=0.08; cue.vx+=force.x*scale; cue.vy+=force.y*scale;
   }
-  dragging=false; dragStart=null;
+  dragging=false; startTouch=null;
 }
+
 </script>
 </body>
 </html>

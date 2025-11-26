@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+<style>
+  body{margin:0;padding:0;background:#111;display:flex;justify-content:center;align-items:center;height:100vh;color:#fff;font-family:sans-serif;overflow:hidden}
+  #msg{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    font-size:2rem;text-align:center;pointer-events:none;
+  }
+  #controls{
+    position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+    display:grid;gap:8px;grid-template-columns:60px 60px 60px;
+  }
+  button{
+    background:#222;color:#fff;border:1px solid #555;border-radius:8px;
+    height:60px;font-size:22px;
+  }
+  @media(min-width:700px){#controls{display:none}}
+</style>
+</head>
+<body>
+<div id="msg"></div>
+<div id="controls">
+  <button onclick="setDir(0,-1)">↑</button>
+  <button onclick="setDir(-1,0)">←</button>
+  <button onclick="setDir(1,0)">→</button>
+  <button style="grid-column:2" onclick="setDir(0,1)">↓</button>
+</div>
+<script>
+let rez = 20;
+let snake, food;
+let cols, rows;
+let dir;
+let score = 0;
+let winScore = 1;
+let gameOver = false;
+let gameWon = false;
+
+function setup(){
+  let side = min(window.innerWidth, window.innerHeight)*0.8;
+  side = floor(side/rez)*rez;
+  createCanvas(side,side);
+  frameRate(10);
+
+  cols = width/rez;
+  rows = height/rez;
+  resetGame();
+}
+
+function windowResized(){
+  let side = min(window.innerWidth, window.innerHeight)*0.8;
+  side = floor(side/rez)*rez;
+  resizeCanvas(side,side);
+  cols = width/rez;
+  rows = height/rez;
+}
+
+function resetGame(){
+  score = 0;
+  gameOver = false;
+  gameWon = false;
+  document.getElementById("msg").innerText = "";
+
+  snake = [{x:5,y:5},{x:6,y:5},{x:7,y:5}];
+  dir = {x:1, y:0};
+  placeFood();
+  loop();
+}
+
+function placeFood(){
+  food = {
+    x: floor(random(cols)),
+    y: floor(random(rows))
+  };
+}
+
+function draw(){
+  background(0);
+
+  // score
+  fill(255);
+  textSize(18);
+  textAlign(CENTER,TOP);
+  text("Score : " + score + "/" + winScore, width/2, 4);
+
+  if(gameOver){
+    document.getElementById("msg").innerText = "PERDU...";
+    noLoop();
+    return;
+  }
+  if(gameWon){
+    document.getElementById("msg").innerText = "Utilise le 6ème terme de la suite de Fibonacci, Morty!";
+    noLoop();
+    return;
+  }
+
+  // update snake
+  let head = {...snake[snake.length-1]};
+  head.x += dir.x;
+  head.y += dir.y;
+
+  // collisions murs
+  if(head.x<0 || head.x>=cols || head.y<0 || head.y>=rows){gameOver=true;return;}
+
+  // collisions corps
+  for(let p of snake){if(p.x===head.x && p.y===head.y){gameOver=true;return;}}
+
+  snake.push(head);
+
+  // mange ?
+  if(head.x===food.x && head.y===food.y){
+    score++;
+    if(score>=winScore){gameWon=true;}
+    else placeFood();
+  } else snake.shift();
+
+  // draw food
+  fill(200,30,30);
+  rect(food.x*rez, food.y*rez, rez, rez);
+
+  // draw snake
+  fill(255);
+  for(let p of snake) rect(p.x*rez, p.y*rez, rez, rez);
+}
+
+function keyPressed(){
+  if(keyCode===UP_ARROW) setDir(0,-1);
+  if(keyCode===DOWN_ARROW) setDir(0,1);
+  if(keyCode===LEFT_ARROW) setDir(-1,0);
+  if(keyCode===RIGHT_ARROW) setDir(1,0);
+  if(key==='r' || key==='R') resetGame();
+}
+
+function setDir(x,y){
+  if(snake.length>1){
+    let h = snake[snake.length-1];
+    let b = snake[snake.length-2];
+    if(h.x + x === b.x && h.y + y === b.y) return;
+  }
+  dir = {x,y};
+}
+</script>
+</body>
+</html>
+

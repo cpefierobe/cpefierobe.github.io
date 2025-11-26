@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Caesar-Verschlüsselung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 25px;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        th {
+            background: #eee;
+        }
+        input, button {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+
+<h2>La suite de Fibonacci</h2>
+
+<p>Dans un son traité, Liber abaci, Leonardo Fibonacci décrit la croissance d'une population de lapins. Cette population obéit à trois règles:</p> 
+<p><b>Règle 1.</b> A l'instant initial il y a un seul couple de lapins.</p>
+<p><b>Règle 2.</b> Les lapins procréent à partir de deux mois.</p>
+<p><b>Règle 3.</b> Chaque mois, les lapins en âge de procréer engendre un nouveau couple de lapins.</p>
+
+<p>La suite de Fibonacci compte le nombre de couples de lapins depuis le début.</p>
+
+<p>Ainsi initialement, il y a 1 couple. Le mois suivant le couple est trop jeune et ne procrée pas, il y a donc toujours 1 couple. Le mois suivant, ce couple procrée, il y a donc 2 couples au total. Le troisième mois le nouveau couple est trop jeune, mais le premier couple engendre un autre couple: il y a donc 3 couple. Et ainsi de suite.</p>
+
+<p>Le tableau suivant compte les premier termes de la suite de Fibonacci:</p>
+
+<div>
+<table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
+  <tr style="background: #111;">
+    <th style="border:1px solid #ccc; padding:6px;">Mois</th>
+    <th style="border:1px solid #ccc; padding:6px;">Quantité de couples de lapins</th>
+  </tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">2</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">4</td><td style="border:1px solid #ccc; padding:6px;">3</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">5</td><td style="border:1px solid #ccc; padding:6px;">5</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">6</td><td style="border:1px solid #ccc; padding:6px;">8</td></tr>
+</table>
+</div>
+
+<p>La suite suit une logique précise, la population à un mois donnée est la somme des populations des deux mois précédents: les lapins qui sont déjà là, plus ceux qui sont engendrés par les lapins âgés d'au moins deux mois! 
+
+<p>L'aplication suivante calcule la quantité de lapin au out d'un mois donné:</p>
+
+<label for="n">Entrez le nombre de mois passés :</label>
+    <input type="number" id="n" min="0" />
+    <button onclick="calculerFibonacci()">Calculer</button>
+
+    <p id="resultat"></p>
+
+    <script>
+        function fibonacci(n) {
+            if (n < 0) return null;
+            if (n === 0) return 0;
+            if (n === 1) return 1;
+
+            let a = 0, b = 1;
+            for (let i = 2; i <= n; i++) {
+                let temp = a + b;
+                a = b;
+                b = temp;
+            }
+            return b;
+        }
+
+        function calculerFibonacci() {
+            const n = parseInt(document.getElementById("n").value, 10);
+            if (isNaN(n) || n < 0) {
+                document.getElementById("resultat").textContent =
+                    "Veuillez entrer un nombre entier positif.";
+                return;
+            }
+
+            const resultat = fibonacci(n);
+            document.getElementById("resultat").textContent =
+                `F(${n}) = ${resultat}`;
+        }
+    </script>
+
+</body>
+</html>
+

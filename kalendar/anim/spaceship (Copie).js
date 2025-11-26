@@ -1,6 +1,6 @@
-// Spaceship vs Asteroids mit Sternen + Interaktiver Story + Hinweistext
-// Steuerung: Links/Rechts-Pfeile oder Fingerbewegung
-// Überlebe das Asteroidenfeld und tippe auf das Objekt im All...
+// Spaceship vs Asteroids with Stars + Interactive Box Story
+// Move: LEFT/RIGHT arrows or drag/move finger
+// Survive the asteroid belt, then tap the box to read the message...
 
 let ship;
 let asteroids = [];
@@ -13,21 +13,25 @@ let boxAppeared = false;
 let boxTapped = false;
 let voidStartTime;
 let boxPos;
-let showHint = false;
-let hintStartTime;
 let targetAsteroids = 1;
 
-// Storytext
+// Story text paragraphs
 let story = [
-"Morty, hör zu! Ich musste mich verstecken —\n langer, interdimensionaler Albtraum, okay?",
-"Bin mitten in der Nacht abgehauen.",
-"Jetzt häng ich fest… in meinem eigenen Versteck,\n verdammt nochmal!",
-"Du musst mich finden, Morty!",
-"In meinem Safe liegen Briefe — die brauchst du.",
-"Der Safe öffnet sich nur mit einem Code,\n der sich dauernd ändert.",
-"Eine Zahl wird angezeigt,\nund du musst ihren audioaktiven Nachfolger eingeben.",
+"Morty, hör zu! Ich musste mich verstecken —",
+"langer, interdimensionaler Albtraum, okay? Bin mitten in der Nacht abgehauen.",
+"Jetzt häng ich fest… in meinem eigenen Versteck, verdammt nochmal!",
+"Du musst mich finden, Morty. In meinem Safe liegen Briefe — die brauchst du.",
+"Der Safe öffnet sich nur mit einem Code, der sich dauernd ändert.",
+"Eine Zahl wird angezeigt, und du musst ihren audioaktiven Nachfolger eingeben.",
 "Denk nach, Morty!"
 ];
+
+/*
+  "You escaped the asteroid belt. The silence of space feels endless.",
+  "Floating before you is a strange, metallic object... it's humming softly.",
+  "A faint symbol glows on its surface — older than any known civilization.",
+  "You feel it calling you... but then, it fades away into the void."
+ */
 let currentParagraph = 0;
 
 function setup() {
@@ -51,12 +55,12 @@ function draw() {
     return;
   }
 
-  // ---- Asteroidenphase ----
+  // ---- Main asteroid phase ----
   handleInput();
   ship.update();
   ship.show();
 
-  // Asteroiden erzeugen
+  // Spawn asteroids
   if (frameCount % 30 === 0 && score < targetAsteroids) {
     asteroids.push(new Asteroid());
   }
@@ -77,10 +81,10 @@ function draw() {
   fill(255);
   textSize(20);
   textAlign(LEFT, TOP);
-  text("Asteroiden passiert: " + score + " / " + targetAsteroids, 10, 10);
+  text("Asteroids passed: " + score + " / " + targetAsteroids, 10, 10);
 }
 
-// ---------- Steuerung ----------
+// ---------- Controls ----------
 function handleInput() {
   if (mouseIsPressed || touches.length > 0) {
     let xPos = touches.length > 0 ? touches[0].x : mouseX;
@@ -98,7 +102,6 @@ function keyReleased() {
 function mousePressed() {
   if (gameOver) return resetGame();
 
-  // Objekt antippen
   if (voidPhase && boxAppeared && !boxTapped) {
     let d = dist(mouseX, mouseY, boxPos.x, boxPos.y);
     if (d < 40) boxTapped = true;
@@ -118,15 +121,15 @@ function touchStarted() {
   return false;
 }
 
-// ---------- Szenen ----------
+// ---------- Scenes ----------
 function showGameOver() {
   fill(255, 50, 50);
   textAlign(CENTER, CENTER);
   textSize(40);
   text("💥 GAME OVER 💥", width / 2, height / 2);
   textSize(24);
-  text("Punkte: " + score, width / 2, height / 2 + 50);
-  text("Drücke R oder tippe zum Neustart", width / 2, height / 2 + 100);
+  text("Score: " + score, width / 2, height / 2 + 50);
+  text("Press R or Tap to Restart", width / 2, height / 2 + 100);
 }
 
 function showVoidScene() {
@@ -136,39 +139,23 @@ function showVoidScene() {
   ship.update();
   ship.show();
 
-  // Objekt erscheint nach .5 Sekunden
-  if (elapsed > 500) {
+  // Box appears after 1.5 sec
+  if (elapsed > 1000) {
     let alpha = constrain(map(elapsed, 1500, 2500, 0, 255), 0, 255);
     fill(100, 200, 255, alpha);
     noStroke();
     rectMode(CENTER);
     rect(boxPos.x, boxPos.y, 60, 60, 10);
-
-    if (alpha >= 255 && !showHint) {
-      showHint = true;
-      hintStartTime = millis();
-    }
     if (alpha >= 255) boxAppeared = true;
   }
 
-  // Hinweistext anzeigen
-  if (showHint && !boxTapped) {
-    let hintAge = millis() - hintStartTime;
-    let hintAlpha = map(hintAge, 0, 5000, 255, 0); // verblasst in 5s
-    if (hintAlpha > 0) {
-      fill(255, hintAlpha);
-      textAlign(CENTER, CENTER);
-      textSize(22);
-      text("Ein unbekanntes Objekt erscheint im All...", width / 2, height / 2 - 100);
-    }
-  }
-
-  // Story anzeigen, wenn Objekt angetippt wurde
+  // When box tapped → show story
   if (boxTapped) showStoryBox();
 }
 
-// ---------- Story ----------
+// ---------- Story Interaction ----------
 function showStoryBox() {
+  // Draw a semi-transparent box
   fill(0, 150);
   rectMode(CENTER);
   rect(width / 2, height / 2 + 120, width * 0.8, 160, 20);
@@ -179,19 +166,24 @@ function showStoryBox() {
   textWrap(WORD);
   text(story[currentParagraph], width / 2, height / 2 + 100, width * 0.75);
 
-  // Buttons
+  // Draw navigation buttons
   let btnY = height / 2 + 180;
   textSize(18);
-  if (currentParagraph > 0) drawButton(width / 2 - 100, btnY, "⬅ Zurück");
-  if (currentParagraph < story.length - 1)
-    drawButton(width / 2 + 100, btnY, "Weiter ➡");
-  else drawButton(width / 2 + 100, btnY, "Neustart ↻");
+
+  if (currentParagraph > 0) {
+    drawButton(width / 2 - 100, btnY, "⬅ Back");
+  }
+  if (currentParagraph < story.length - 1) {
+    drawButton(width / 2 + 100, btnY, "Next ➡");
+  } else {
+    drawButton(width / 2 + 100, btnY, "Restart ↻");
+  }
 }
 
 function drawButton(x, y, label) {
   fill(50, 150, 255);
   rectMode(CENTER);
-  rect(x, y, 130, 36, 10);
+  rect(x, y, 120, 36, 10);
   fill(255);
   noStroke();
   textAlign(CENTER, CENTER);
@@ -209,7 +201,7 @@ function handleStoryButtons(px, py) {
   }
 }
 
-// ---------- Sterne ----------
+// ---------- Stars ----------
 function drawStars() {
   fill(255);
   noStroke();
@@ -236,14 +228,13 @@ class Star {
   }
 }
 
-// ---------- Reset ----------
+// ---------- Reset & Resize ----------
 function resetGame() {
   gameOver = false;
   victory = false;
   voidPhase = false;
   boxAppeared = false;
   boxTapped = false;
-  showHint = false;
   score = 0;
   asteroids = [];
   ship = new Ship();
@@ -254,7 +245,7 @@ function windowResized() {
   ship.y = height - 60;
 }
 
-// ---------- Schiff & Asteroiden ----------
+// ---------- Ship & Asteroids ----------
 class Ship {
   constructor() {
     this.x = width / 2;

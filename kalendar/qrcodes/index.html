@@ -1,1 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Déplacer QR Codes A4</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+  <script>
+    let qrCodes = [];
+    let numQRCodes = 25;
+    let qrSizeSlider;
+    let selectedQR = null;
+    let offsetX, offsetY;
+
+    function preload() {
+      for (let i = 1; i <= numQRCodes; i++) {
+        qrCodes.push({
+          img: loadImage(`tag${i}.png`),
+          x: 50 + (i % 5) * 120,
+          y: 50 + Math.floor(i / 5) * 120,
+          number: i
+        });
+      }
+    }
+
+    function setup() {
+      createCanvas(2480, 3508); // A4 300dpi
+      qrSizeSlider = createSlider(50, 500, 150);
+      qrSizeSlider.position(10, 10);
+      qrSizeSlider.style('width', '200px');
+
+      let saveQRButton = createButton('Enregistrer QR Codes');
+      saveQRButton.position(10, 40);
+      saveQRButton.mousePressed(saveQRImage);
+
+      let saveSquaresButton = createButton('Enregistrer Numéros');
+      saveSquaresButton.position(10, 70);
+      saveSquaresButton.mousePressed(saveNumberedImage);
+    }
+
+    function draw() {
+      background(255);
+      let qrSize = qrSizeSlider.value();
+      for (let qr of qrCodes) {
+        imageMode(CENTER);
+        image(qr.img, qr.x, qr.y, qrSize, qrSize);
+      }
+    }
+
+    function mousePressed() {
+      for (let qr of qrCodes) {
+        let qrSize = qrSizeSlider.value();
+        if (mouseX > qr.x - qrSize/2 && mouseX < qr.x + qrSize/2 &&
+            mouseY > qr.y - qrSize/2 && mouseY < qr.y + qrSize/2) {
+          selectedQR = qr;
+          offsetX = mouseX - qr.x;
+          offsetY = mouseY - qr.y;
+          break;
+        }
+      }
+    }
+
+    function mouseDragged() {
+      if (selectedQR) {
+        selectedQR.x = mouseX - offsetX;
+        selectedQR.y = mouseY - offsetY;
+      }
+    }
+
+    function mouseReleased() {
+      selectedQR = null;
+    }
+
+    function saveQRImage() {
+      let qrSize = qrSizeSlider.value();
+      let img = createGraphics(width, height);
+      img.background(255);
+      for (let qr of qrCodes) {
+        img.imageMode(CENTER);
+        img.image(qr.img, qr.x, qr.y, qrSize, qrSize);
+      }
+      save(img, 'QR_Codes.png');
+    }
+
+    function saveNumberedImage() {
+      let qrSize = qrSizeSlider.value();
+      let img = createGraphics(width, height);
+      img.background(255);
+      img.textAlign(CENTER, CENTER);
+      img.textSize(qrSize/3);
+      img.fill(0);
+      img.stroke(0);
+      img.strokeWeight(2);
+      for (let qr of qrCodes) {
+        img.rectMode(CENTER);
+        img.noFill();
+        img.rect(qr.x, qr.y, qrSize, qrSize);
+        img.fill(0);
+        img.noStroke();
+        img.text(qr.number, qr.x, qr.y);
+      }
+      save(img, 'Numéros.png');
+    }
+  </script>
+</body>
+</html>
 

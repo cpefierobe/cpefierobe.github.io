@@ -21,62 +21,78 @@
     /* simple transition for reveal */
     details[open] .letter-content{animation:fadeIn .18s ease-out}
     @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <main class="card" role="main">
     <h1>Im Koffer von Rick</h1>
-    <p class="lead">Im Koffer von Rick befinden sich drei Briefe. </p>
+    <p class="lead">Im Koffer von Rick befinden sich vier Briefe: </p>
 
     <nav class="links" aria-label="Briefliste">
       <a href="#letter1" class="toggle" data-target="letter1">Brief 1</a>
       <a href="#letter2" class="toggle" data-target="letter2">Brief 2</a>
       <a href="#letter3" class="toggle" data-target="letter3">Brief 3</a>
+      <a href="#letter4" class="toggle" data-target="letter3">Brief 4</a>
     </nav>
 
     <!-- Details-blocks provide accessible collapse behaviour; links will toggle them via JS -->
     <details id="letter1" aria-labelledby="link-letter1">
-      <summary id="link-letter1">Brief 1 — Kurzer Text</summary>
+      <summary id="link-letter1">Brief 1 — Instruktionen</summary>
       <div class="letter-content">
-        <p>Lieber Freund,</p>
-        <p>dies ist ein kurzer handgeschriebener Brief. Ich hoffe, diese Zeilen finden dich wohl. Vergiss niemals, woher du kommst — und wohin du gehen willst.</p>
+        <p>Morty,</p> 
+        <p>ich befinde mich irgendwo in der Galaxie.</p>
+        <p>Ich habe meine Position geschlüsselt in den Briefe Nr. 2 und 3. Ich habe Hinweise hintergelassen, damit du Sie entzifferst.</p>
+        <p> Du wirst spater den Brief Nr. 4 benutzen.</p>
         <p class="muted">— R.</p>
       </div>
     </details>
-
+    
     <details id="letter2" aria-labelledby="link-letter2">
-      <summary id="link-letter2">Brief 2 — Bild</summary>
+      <summary id="link-letter2">Brief 2 — Kode Teil 1</summary>
       <div class="letter-content">
-        <!-- Simple inline SVG as placeholder image -->
-        <figure>
-          <svg class="svg-image" viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Skizze eines Briefs">
-            <rect width="600" height="360" rx="12" fill="#ffffff" stroke="#e6e9ef"/>
-            <g transform="translate(40,40)">
-              <rect width="520" height="280" rx="8" fill="#fbfbff" stroke="#eef2ff"/>
-              <rect x="28" y="24" width="420" height="12" rx="6" />
-              <rect x="28" y="50" width="360" height="12" rx="6" />
-              <rect x="28" y="82" width="480" height="12" rx="6" />
-              <rect x="28" y="114" width="320" height="12" rx="6" />
-              <circle cx="460" cy="200" r="44" fill="#eef2ff" stroke="#d6dbff"/>
-              <text x="460" y="206" font-size="30" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle">✉</text>
-            </g>
-          </svg>
-          <figcaption class="muted">Eine gezeichnete Version des Inhalts von Brief 2.</figcaption>
-        </figure>
+        <p>SQUA</p>
       </div>
     </details>
 
     <details id="letter3" aria-labelledby="link-letter3">
-      <summary id="link-letter3">Brief 3 — Längerer Text</summary>
+      <summary id="link-letter2">Brief 3 — Kode Teil 2</summary>
+      <div class="letter-content"  style="text-align: center;">
+        <figure>
+          <img id="monImage" src="img/KodeBild.png" style="width: 100%;"/>
+        </figure>
+
+  <!-- Bouton pour télécharger l'image -->
+  <button id="telechargerBtn">Herunterladen</button>
+
+  <script>
+    const btn = document.getElementById('telechargerBtn');
+    const img = document.getElementById('monImage');
+
+    btn.addEventListener('click', () => {
+      // Créer un lien temporaire
+      const lien = document.createElement('a');
+      lien.href = img.src;
+      lien.download = 'Kode2.jpg'; // Nom du fichier téléchargé
+      document.body.appendChild(lien);
+      lien.click();
+      document.body.removeChild(lien);
+    });
+  </script>
+      </div>
+    </details>
+
+    <details id="letter4" aria-labelledby="link-letter4">
+      <summary id="link-letter4">Brief 4 — Hinweis</summary>
       <div class="letter-content">
-        <p>Liebe(r) Empfänger(in),</p>
-        <p>dieser Brief enthält mehr Details: Erinnerungen an die Reise, eine Liste mit Namen und einen kleinen Hinweis. Wenn du diesen Brief liest, dann weißt du, dass etwas Wertvolles gut versteckt wurde.</p>
-        <ol>
-          <li>Der erste Schritt ist immer das Finden.</li>
-          <li>Der zweite Schritt ist, leise zu sein.</li>
-          <li>Der dritte Schritt ist Vertrauen.</li>
-        </ol>
-        <p class="muted">— In alter Freundschaft</p>
+        <figure>
+          <img src="img/kochsche_schneeflocke.svg" style="width: 100%;"/>
+          <figcaption style="text-align:center;">Kochsche Schneeflocke</figcaption>
+        </figure>
       </div>
     </details>
 

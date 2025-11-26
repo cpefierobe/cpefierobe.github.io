@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Encodage RGB modulo 256 (Mobile + Download)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 10px; padding: 0; }
+    input, button { font-size: 18px; padding: 8px; margin: 5px 0; }
+    p { margin: 5px 0; }
+  </style>
+</head>
+<body>
+
+<h2>Encodage image par multiplication RGB (mod 256)</h2>
+<p>Choisis une image et entre trois clés (R, G, B) :</p>
+
+<script>
+let img;
+let encodedImg; // stocke l'image encodée
+let inputFile, inputR, inputG, inputB;
+let encodeButton, downloadButton;
+let canvasY = 220; // position verticale du canvas pour laisser la place aux inputs
+
+function setup() {
+  createCanvas(windowWidth, windowHeight - canvasY).parent(document.body);
+  background(220);
+  textSize(16);
+
+  // Sélecteur de fichier
+  inputFile = createFileInput(handleFile);
+  inputFile.position(10, 10);
+
+  // Clés R,G,B
+  createP('Clé R :').position(10, 50);
+  inputR = createInput('3');
+  inputR.position(70, 65); inputR.size(80);
+
+  createP('Clé G :').position(160, 50);
+  inputG = createInput('5');
+  inputG.position(220, 65); inputG.size(80);
+
+  createP('Clé B :').position(330, 50);
+  inputB = createInput('7');
+  inputB.position(390, 65); inputB.size(80);
+
+  // Bouton encodage
+  encodeButton = createButton('Encoder');
+  encodeButton.position(10, 110);
+  encodeButton.size(120, 40);
+  encodeButton.mousePressed(encodeImage);
+
+  // Bouton téléchargement
+  downloadButton = createButton('Télécharger');
+  downloadButton.position(150, 110);
+  downloadButton.size(150, 40);
+  downloadButton.mousePressed(downloadEncoded);
+  downloadButton.attribute('disabled', ''); // désactivé tant qu'on n'a pas encodé
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - canvasY);
+  if (img) displayImage(encodedImg || img);
+}
+
+function handleFile(file) {
+  if (file.type === 'image') {
+    img = loadImage(file.data, () => {
+      displayImage(img);
+    });
+  } else {
+    print('Ce n’est pas une image.');
+  }
+}
+
+// Affiche l'image redimensionnée à l'écran
+function displayImage(imageToDisplay) {
+  background(220);
+  let maxW = width - 20;
+  let maxH = height - 20;
+  let w = imageToDisplay.width;
+  let h = imageToDisplay.height;
+  let ratio = min(maxW / w, maxH / h, 1);
+  imageToDisplay.resize(floor(w * ratio), floor(h * ratio));
+  image(imageToDisplay, 10, 10);
+}
+
+// Encodage modulo 256
+function encodeImage() {
+  if (!img) return;
+
+  let kR = int(inputR.value());
+  let kG = int(inputG.value());
+  let kB = int(inputB.value());
+  if (isNaN(kR) || isNaN(kG) || isNaN(kB)) return;
+
+  encodedImg = createImage(img.width, img.height);
+  encodedImg.copy(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+  encodedImg.loadPixels();
+
+  for (let i = 0; i < encodedImg.pixels.length; i += 4) {
+    encodedImg.pixels[i]     = (encodedImg.pixels[i]     * kR) % 256; // R
+    encodedImg.pixels[i + 1] = (encodedImg.pixels[i + 1] * kG) % 256; // G
+    encodedImg.pixels[i + 2] = (encodedImg.pixels[i + 2] * kB) % 256; // B
+  }
+  encodedImg.updatePixels();
+
+  displayImage(encodedImg);
+  text('Image encodée - R=' + kR + ', G=' + kG + ', B=' + kB, 10, 20);
+
+  // Activer le bouton téléchargement
+  downloadButton.removeAttribute('disabled');
+}
+
+// Télécharger l'image encodée
+function downloadEncoded() {
+  if (encodedImg) {
+    encodedImg.save('image_encodee.png');
+  }
+}
+</script>
+
+</body>
+</html>
+
