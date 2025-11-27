@@ -119,40 +119,53 @@
   // Fond réduit + carrés numérotés
   // -------------------------------------------------------
   function dessinerFond() {
-    fondNum = createGraphics(FOND_W, FOND_H);
+  fondNum = createGraphics(FOND_W, FOND_H);
 
-    // fond redimensionné pour un fichier plus léger
-    fondNum.image(fond, 0, 0, FOND_W, FOND_H);
+  // fond réduit
+  fondNum.image(fond, 0, 0, FOND_W, FOND_H);
 
-    // Adaptation des positions à la nouvelle taille
-    let scaleX = FOND_W / A4_W;
-    let scaleY = FOND_H / A4_H;
+  let scaleX = FOND_W / A4_W;
+  let scaleY = FOND_H / A4_H;
 
-    fondNum.rectMode(CENTER);
-    fondNum.textAlign(CENTER, CENTER);
-    fondNum.textSize(50);
-    fondNum.stroke(80);
+  fondNum.rectMode(CENTER);
+  fondNum.textAlign(CENTER, CENTER);
+  fondNum.textSize(50);
+
+  for (let i = 1; i <= 25; i++) {
+    let p = positions[i];
+
+    let x = p.x * scaleX;
+    let y = p.y * scaleY;
+    let s = min(p.cellW, p.cellH) * 0.7 * scaleX;
+
+    // --- Double bordure autour du carré ---
+    // Contour noir fin
+    fondNum.stroke(0);
+    fondNum.strokeWeight(3);
     fondNum.noFill();
-    fondNum.strokeWeight(4);
+    fondNum.rect(x, y, s, s, 18);
 
-    for (let i = 1; i <= 25; i++) {
-      let p = positions[i];
+    // Bordure blanche par-dessus
+    fondNum.stroke(255);
+    fondNum.strokeWeight(1.5);
+    fondNum.noFill();
+    fondNum.rect(x, y, s, s, 18);
 
-      let x = p.x * scaleX;
-      let y = p.y * scaleY;
+    // --- Double trait pour le chiffre ---
+    // Chiffre contour noir
+    fondNum.fill(0);
+    fondNum.noStroke();
+    fondNum.stroke(0);
+    fondNum.strokeWeight(6);
+    fondNum.text(i, x, y);
 
-      let s = min(p.cellW, p.cellH) * 0.7 * scaleX;
-
-      fondNum.rect(x, y, s, s, 18);
-
-      fondNum.fill(80);
-      fondNum.noStroke();
-      fondNum.text(i, x, y);
-
-      fondNum.noFill();
-      fondNum.stroke(80);
-    }
+    // Chiffre blanc par-dessus
+    fondNum.noStroke();
+    fondNum.fill(255);
+    fondNum.text(i, x, y);
   }
+}
+
 
   // -------------------------------------------------------
   // Sauvegarde
