@@ -107,8 +107,9 @@
       let p = positions[i];
       let maxSize = min(p.cellW * 0.8, p.cellH * 0.8);
       let ratio = maxSize / max(imgs[i].width, imgs[i].height);
-      let w = imgs[i].width * ratio;
-      let h = imgs[i].height * ratio;
+      let r = 0.8;
+      let w = imgs[i].width * ratio * r;
+      let h = imgs[i].height * ratio * r;
 
       composition.imageMode(CENTER);
       composition.image(imgs[i], p.x, p.y, w, h);
