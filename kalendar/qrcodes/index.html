@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
-  <title>Générateur A4 aléatoire</title>
+  <title>Générateur A4 grille</title>
 
   <style>
     body { font-family: sans-serif; padding:20px; }
@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <h2>Générateur A4 (aléatoire, sans chevauchement)</h2>
+  <h2>Générateur A4 (grille, ordre aléatoire)</h2>
 
   <button onclick="generer()">Générer</button>
   <button onclick="saveComposition()">Enregistrer composition</button>
@@ -24,10 +24,16 @@
   const A4_W = 3508;
   const A4_H = 2480;
 
+  // Taille réduite du fond pour limiter le poids du fichier généré
+  const FOND_W = 1800;   // ajustable
+  const FOND_H = 1270;   // ajustable
+
   let imgs = [];
   let positions = [];
   let fond;
   let composition, fondNum;
+
+  let ordre = []; // contient les numéros 1..25 mélangés
 
   function preload() {
     for (let i = 1; i <= 25; i++) {
@@ -37,70 +43,61 @@
   }
 
   function setup() {
-    createCanvas(700, 500); // aperçu réduit
+    createCanvas(700, 500);
     noLoop();
   }
 
   function generer() {
-    arrangerImagesAleatoires();
+    genererOrdre();
+    arrangerGrille();
     dessinerComposition();
     dessinerFond();
     image(composition, 0, 0, width, height);
   }
 
   // -------------------------------------------------------
-  // Placement aléatoire sans chevauchement
+  // Mélanger 1..25
   // -------------------------------------------------------
+  function genererOrdre() {
+    ordre = [];
+    for (let i = 1; i <= 25; i++) ordre.push(i);
 
-  function arrangerImagesAleatoires() {
+    // mélange Fisher-Yates
+    for (let i = ordre.length - 1; i > 0; i--) {
+      let j = floor(random(i + 1));
+      [ordre[i], ordre[j]] = [ordre[j], ordre[i]];
+    }
+  }
+
+  // -------------------------------------------------------
+  // Placement en grille 5×5
+  // -------------------------------------------------------
+  function arrangerGrille() {
     positions = [];
-    let maxSize = min(A4_W, A4_H) / 6;  // taille visuelle des images
 
-    for (let i = 1; i <= 25; i++) {
-      let placed = false;
-      let tries = 0;
+    const cols = 5;
+    const rows = 5;
+    const margin = 120;
+    const cellW = (A4_W - 2 * margin) / cols;
+    const cellH = (A4_H - 2 * margin) / rows;
 
-      while (!placed && tries < 200) {
-        tries++;
+    let idx = 0;
 
-        let x = random(maxSize, A4_W - maxSize);
-        let y = random(maxSize, A4_H - maxSize);
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        let x = margin + c * cellW + cellW / 2;
+        let y = margin + r * cellH + cellH / 2;
 
-        // Ajuste l'image au format carré
-        let ratio = maxSize / max(imgs[i].width, imgs[i].height);
-        let w = imgs[i].width * ratio;
-        let h = imgs[i].height * ratio;
+        let numeroImage = ordre[idx];
+        idx++;
 
-        let newBox = { x, y, w, h };
-
-        if (!isOverlapping(newBox, positions)) {
-          positions[i] = newBox;
-          placed = true;
-        }
-      }
-
-      if (!placed) {
-        console.log("Impossible de placer l'image " + i);
+        positions[numeroImage] = {x, y, cellW, cellH};
       }
     }
-  }
-
-  // Test de chevauchement
-  function isOverlapping(box, others) {
-    for (let j = 1; j < others.length; j++) {
-      let o = others[j];
-      if (!o) continue;
-
-      if (abs(box.x - o.x) < (box.w + o.w) * 0.55 &&
-          abs(box.y - o.y) < (box.h + o.h) * 0.55) {
-        return true;
-      }
-    }
-    return false;
   }
 
   // -------------------------------------------------------
-  // Composition avec toutes les images
+  // Composition avec les 25 images
   // -------------------------------------------------------
   function dessinerComposition() {
     composition = createGraphics(A4_W, A4_H);
@@ -108,42 +105,52 @@
 
     for (let i = 1; i <= 25; i++) {
       let p = positions[i];
-      if (!p) continue;
+      let maxSize = min(p.cellW * 0.8, p.cellH * 0.8);
+      let ratio = maxSize / max(imgs[i].width, imgs[i].height);
+      let w = imgs[i].width * ratio;
+      let h = imgs[i].height * ratio;
 
       composition.imageMode(CENTER);
-      composition.image(imgs[i], p.x, p.y, p.w, p.h);
+      composition.image(imgs[i], p.x, p.y, w, h);
     }
   }
 
   // -------------------------------------------------------
-  // Fond + carrés numérotés (contour uniquement)
+  // Fond réduit + carrés numérotés
   // -------------------------------------------------------
   function dessinerFond() {
-    fondNum = createGraphics(A4_W, A4_H);
+    fondNum = createGraphics(FOND_W, FOND_H);
 
-    // Fond
-    fondNum.image(fond, 0, 0, A4_W, A4_H);
+    // fond redimensionné pour un fichier plus léger
+    fondNum.image(fond, 0, 0, FOND_W, FOND_H);
 
-    // Style des carrés
+    // Adaptation des positions à la nouvelle taille
+    let scaleX = FOND_W / A4_W;
+    let scaleY = FOND_H / A4_H;
+
     fondNum.rectMode(CENTER);
     fondNum.textAlign(CENTER, CENTER);
-    fondNum.textSize(100);
-    fondNum.stroke(80);    // gris foncé
+    fondNum.textSize(50);
+    fondNum.stroke(80);
     fondNum.noFill();
-    fondNum.strokeWeight(8);
-    fondNum.fill(80);      // texte gris foncé
+    fondNum.strokeWeight(4);
 
     for (let i = 1; i <= 25; i++) {
       let p = positions[i];
-      if (!p) continue;
 
-      let s = max(p.w, p.h) * 1.1;
+      let x = p.x * scaleX;
+      let y = p.y * scaleY;
 
-      fondNum.noFill();
-      fondNum.rect(p.x, p.y, s, s, 25);
+      let s = min(p.cellW, p.cellH) * 0.7 * scaleX;
+
+      fondNum.rect(x, y, s, s, 18);
 
       fondNum.fill(80);
-      fondNum.text(i, p.x, p.y);
+      fondNum.noStroke();
+      fondNum.text(i, x, y);
+
+      fondNum.noFill();
+      fondNum.stroke(80);
     }
   }
 
@@ -151,11 +158,11 @@
   // Sauvegarde
   // -------------------------------------------------------
   function saveComposition() {
-    if (composition) save(composition, "composition_A4_aleatoire.png");
+    if (composition) save(composition, "composition_A4_grille.png");
   }
 
   function saveFond() {
-    if (fondNum) save(fondNum, "fond_num_A4_aleatoire.png");
+    if (fondNum) save(fondNum, "fond_num_A4_legere.png");
   }
 
 </script>
