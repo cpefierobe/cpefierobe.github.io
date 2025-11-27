@@ -121,7 +121,7 @@
   function dessinerFond() {
   fondNum = createGraphics(FOND_W, FOND_H);
 
-  // fond réduit
+  // On redimensionne l’image du fond, pas de duplication inutile → léger
   fondNum.image(fond, 0, 0, FOND_W, FOND_H);
 
   let scaleX = FOND_W / A4_W;
@@ -138,30 +138,23 @@
     let y = p.y * scaleY;
     let s = min(p.cellW, p.cellH) * 0.7 * scaleX;
 
-    // --- Double bordure autour du carré ---
-    // Contour noir fin
-    fondNum.stroke(0);
-    fondNum.strokeWeight(3);
-    fondNum.noFill();
+    // ---- Carré gris comme avant ----
+    fondNum.stroke(80);      // bordure gris moyen
+    fondNum.strokeWeight(2);
+    fondNum.fill(0, 0);      // pas de remplissage
     fondNum.rect(x, y, s, s, 18);
 
-    // Bordure blanche par-dessus
+    // ---- Chiffre avec contour blanc ----
+
+    // Contour blanc fin
     fondNum.stroke(255);
-    fondNum.strokeWeight(1.5);
-    fondNum.noFill();
-    fondNum.rect(x, y, s, s, 18);
-
-    // --- Double trait pour le chiffre ---
-    // Chiffre contour noir
-    fondNum.fill(0);
-    fondNum.noStroke();
-    fondNum.stroke(0);
-    fondNum.strokeWeight(6);
+    fondNum.strokeWeight(4);
+    fondNum.fill(255);
     fondNum.text(i, x, y);
 
-    // Chiffre blanc par-dessus
+    // Chiffre principal gris 80
     fondNum.noStroke();
-    fondNum.fill(255);
+    fondNum.fill(80);
     fondNum.text(i, x, y);
   }
 }
