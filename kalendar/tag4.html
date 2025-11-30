@@ -1,89 +1,186 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tag 1 — Wo ist Rick?</title>
+  <meta charset="UTF-8" />
+  <title>Gravité + Rebonds</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <style>
-    body {
-      margin:0;
-      background:#0b0f14;
-      color:#e8f6f2;
-      font-family: "Segoe UI", Roboto, sans-serif;
-      display:flex;
-      /*align-items:center;*/
-      justify-content:center;
-      height:100vh;
-      padding:20px;
+    body { margin:0; padding:0; overflow:hidden; touch-action:none; }
+    #ui {
+      position:absolute; top:10px; left:10px; right:10px;
+      display:flex; flex-direction:column; gap:10px;
+      font-family:sans-serif; color:white;
+      z-index:10;
     }
-    .card {
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.05);
-      border-radius:14px;
-      padding:28px;
-      max-width:700px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+    #endMessage, #startMessage, #loseMessage {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      text-shadow: 0 0 10px black;
+      display: none;
     }
-    h1 {color:#6ee7b7;font-size:1.5rem;margin-top:0;}
-    p {line-height:1.5;margin:0 0 1em 0;}
-    .action {font-style:italic;color:#c9d3ff;}
-    a {
-      display:inline-block;
-      margin-top:10px;
-      color:#6ee7b7;
-      text-decoration:none;
-      border:1px solid rgba(110,231,183,0.2);
-      padding:6px 12px;
-      border-radius:8px;
-      font-weight:600;
-    }
-    a:hover {background:rgba(110,231,183,0.1);}
   </style>
 </head>
-<body>
-  <div class="card">
-    <h1>Tag 4 — Auf der Tafel von Rick</h1>
-    <p>Heute stehst du vor der Tafel, und abgesehen von den üblichen Formeln fällt dir nichts Besonderes auf. Nur das Folgende:</p>
-    <p>P8ßßoöo nso ümrvkxqo, nkxx louywwüß n0 nso x6mrüßo 1oöümrsol0xq.</p>
-  <table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
-  <tr style="background: #111;">
-    <th style="border:1px solid #ccc; padding:6px;">Index</th>
-    <th style="border:1px solid #ccc; padding:6px;">Buchtaben</th>
-    <th style="border:1px solid #ccc; padding:6px;">Index</th>
-    <th style="border:1px solid #ccc; padding:6px;">Buchstaben</th>
-  </tr>
 
-  <!-- a-z -->
-  <tr><td style="border:1px solid #ccc; padding:6px;">0</td><td style="border:1px solid #ccc; padding:6px;">a</td><td style="border:1px solid #ccc; padding:6px;">26</td><td style="border:1px solid #ccc; padding:6px;">ä</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">b</td><td style="border:1px solid #ccc; padding:6px;">27</td><td style="border:1px solid #ccc; padding:6px;">ö</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">c</td><td style="border:1px solid #ccc; padding:6px;">28</td><td style="border:1px solid #ccc; padding:6px;">ü</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">d</td><td style="border:1px solid #ccc; padding:6px;">29</td><td style="border:1px solid #ccc; padding:6px;">ß</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">4</td><td style="border:1px solid #ccc; padding:6px;">e</td><td style="border:1px solid #ccc; padding:6px;">30</td><td style="border:1px solid #ccc; padding:6px;">0</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">5</td><td style="border:1px solid #ccc; padding:6px;">f</td><td style="border:1px solid #ccc; padding:6px;">31</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">6</td><td style="border:1px solid #ccc; padding:6px;">g</td><td style="border:1px solid #ccc; padding:6px;">32</td><td style="border:1px solid #ccc; padding:6px;">2</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">7</td><td style="border:1px solid #ccc; padding:6px;">h</td><td style="border:1px solid #ccc; padding:6px;">33</td><td style="border:1px solid #ccc; padding:6px;">3</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">8</td><td style="border:1px solid #ccc; padding:6px;">i</td><td style="border:1px solid #ccc; padding:6px;">34</td><td style="border:1px solid #ccc; padding:6px;">4</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">9</td><td style="border:1px solid #ccc; padding:6px;">j</td><td style="border:1px solid #ccc; padding:6px;">35</td><td style="border:1px solid #ccc; padding:6px;">5</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">10</td><td style="border:1px solid #ccc; padding:6px;">k</td><td style="border:1px solid #ccc; padding:6px;">36</td><td style="border:1px solid #ccc; padding:6px;">6</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">11</td><td style="border:1px solid #ccc; padding:6px;">l</td><td style="border:1px solid #ccc; padding:6px;">37</td><td style="border:1px solid #ccc; padding:6px;">7</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">12</td><td style="border:1px solid #ccc; padding:6px;">m</td><td style="border:1px solid #ccc; padding:6px;">38</td><td style="border:1px solid #ccc; padding:6px;">8</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">13</td><td style="border:1px solid #ccc; padding:6px;">n</td><td style="border:1px solid #ccc; padding:6px;">39</td><td style="border:1px solid #ccc; padding:6px;">9</td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">14</td><td style="border:1px solid #ccc; padding:6px;">o</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">15</td><td style="border:1px solid #ccc; padding:6px;">p</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">16</td><td style="border:1px solid #ccc; padding:6px;">q</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">17</td><td style="border:1px solid #ccc; padding:6px;">r</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">18</td><td style="border:1px solid #ccc; padding:6px;">s</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">19</td><td style="border:1px solid #ccc; padding:6px;">t</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">20</td><td style="border:1px solid #ccc; padding:6px;">u</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">21</td><td style="border:1px solid #ccc; padding:6px;">v</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">22</td><td style="border:1px solid #ccc; padding:6px;">w</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">23</td><td style="border:1px solid #ccc; padding:6px;">x</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">24</td><td style="border:1px solid #ccc; padding:6px;">y</td><td></td><td></td></tr>
-  <tr><td style="border:1px solid #ccc; padding:6px;">25</td><td style="border:1px solid #ccc; padding:6px;">z</td><td></td><td></td></tr>
-</table>
+<body>
+
+<div id="ui">
+    Masse planète :
+    <input type="range" min="50" max="10000" value="1500" id="mass">
+    <button id="startBtn">Los !</button>
+    <button id="resetBtn">Erneut</button>
+</div>
+
+<div id="startMessage">Benutz die Gravitation!</div>
+<div id="endMessage" style="text-align: center;"><p>Bravo Morty!<br/>
+Du musst jetzt meinen zweiten Brief entschlüsseln, und dafür brauchst du 3 Intensitäten von Farben:<br/>
+ - Rot R,<br/> 
+ - Grün G,<br/>
+ - Blau B.<br/>
+G und B sind so, dass
+\[
+G+B = 156\qquad
+\text{ und }
+\qquad G-B = 110.
+\]</p></div>
+<div id="loseMessage">Verloren!</div>
+
+<script>
+let projectile, planet, target;
+let launched = false;
+let gameOver = false;
+
+let G = 0.9;
+let softening = 50;
+let damping = 0.999;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  resetSim();
+
+  document.getElementById("startBtn").onclick = () => {
+    if (gameOver) return;
+    launched = true;
+    document.getElementById("startMessage").style.display = "none";
+  };
   
-  
-  </div>
+  document.getElementById("resetBtn").onclick = resetSim;
+}
+
+function resetSim() {
+  launched = false;
+  gameOver = false;
+
+  document.getElementById("endMessage").style.display = "none";
+  document.getElementById("loseMessage").style.display = "none";
+  document.getElementById("startMessage").style.display = "block";
+
+  projectile = {
+    pos: createVector(width*0.1, height*0.65),
+    vel: createVector(4, -0.5),
+    mass: 1,
+    r: 10
+  };
+
+  planet = {
+    pos: createVector(width*0.5, height*0.5),
+    vel: createVector(0, 0),
+    mass: parseFloat(document.getElementById("mass").value),
+    r: map(parseFloat(document.getElementById("mass").value), 50, 10000, 20, 90)
+  };
+
+  target = createVector(width*0.85, height*0.25);
+}
+
+function draw() {
+  background(10);
+
+  if (gameOver) {  
+    drawBodies();
+    drawTarget();
+    return;
+  }
+
+  if (!launched) {
+    planet.mass = parseFloat(document.getElementById("mass").value);
+    planet.r = map(planet.mass, 50, 10000, 20, 90);
+  }
+
+  drawTarget();
+
+  if (launched) applyGravity();
+  if (launched) updateBodies();
+
+  // Vérifie si collision = défaite
+  if (projectile.pos.dist(planet.pos) < projectile.r + planet.r) {
+    launched = false;
+    gameOver = true;
+    document.getElementById("loseMessage").style.display = "block";
+  }
+
+  drawBodies();
+
+  // Victoire ?
+  if (!gameOver && launched && projectile.pos.dist(target) < 25) {
+    launched = false;
+    document.getElementById("endMessage").style.display = "block";
+  }
+}
+
+function drawTarget() {
+  stroke(0,255,0); strokeWeight(3); noFill();
+  ellipse(target.x, target.y, 40);
+
+  noStroke();
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("Ziel", target.x, target.y - 35);
+}
+
+function applyGravity() {
+  let dirP = p5.Vector.sub(planet.pos, projectile.pos);
+  let distSq = dirP.magSq() + softening*softening;
+
+  let force = (G * planet.mass * projectile.mass) / distSq;
+
+  projectile.vel.add(dirP.setMag(force));
+  planet.vel.add(
+    p5.Vector.sub(projectile.pos, planet.pos).setMag(force / planet.mass)
+  );
+
+  projectile.vel.mult(damping);
+  planet.vel.mult(damping);
+}
+
+function updateBodies() {
+  projectile.pos.add(projectile.vel);
+  planet.pos.add(planet.vel);
+}
+
+function drawBodies() {
+  noStroke();
+
+  // planète
+  fill(120,120,255);
+  ellipse(planet.pos.x, planet.pos.y, planet.r*2);
+
+  // projectile
+  fill(255,120,120);
+  ellipse(projectile.pos.x, projectile.pos.y, projectile.r*2);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  resetSim();
+}
+</script>
+
 </body>
 </html>
 

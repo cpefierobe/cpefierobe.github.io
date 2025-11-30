@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Flocon de Von Koch Interactif</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body { 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            font-family: sans-serif;
+            background: #f5f5f5;
+        }
+        #canvas-container {
+            width: 100%;
+            max-width: 600px;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        canvas { display: block; }
+        #controls {
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+        }
+        button:active { background-color: #0056b3; }
+        #iteration-label { font-size: 1em; }
+#explication {
+    width: 90%;
+    max-width: 600px;
+    text-align: justify; /* texte justifié */
+    margin-top: 20px;
+}
+    </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div id="controls">
+    <div class="buttons">
+        <button onclick="zoomIn()">+</button>
+        <button onclick="zoomOut()">-</button>
+    </div>
+    <div>
+        <label id="iteration-label">Itérations: 4</label><br>
+        <input type="range" id="iteration-slider" min="0" max="6" value="4" step="1" oninput="updateIterations(this.value)">
+    </div>
+</div>
+
+<div id="explication">
+    <h3>Flocon de von Koch</h3>
+    <p>Le flocon de von Koch est un exemple de fractale, c'est à dire une courbe autosimiliaire, qui est similaire à des parties d'elle-même.</p>
+    <p>Il a été découvert en 1902 par le mathématicien suédois Helge von Koch.</p>
+    <p>Il est un exemple de courbe de périmètre infini!</p>
+    <p>Sa dimension est décimale et donnée par la formule
+\[
+\frac{\ln 4}{\ln 3}
+\]
+</p>
+</div>
+
+<script>
+let zoom = 1;
+let iterations = 4;
+let canvas;
+
+function setup() {
+    const container = document.getElementById('canvas-container');
+    canvas = createCanvas(container.offsetWidth, container.offsetHeight);
+    canvas.parent(container);
+}
+
+function draw() {
+    background(255);
+    stroke(0);
+    noFill();
+
+    push();
+    translate(width/2, height/2); // centre du canvas
+    scale(zoom);
+
+    let size = min(width, height) * 0.5;
+    drawKochFlake(-size/2, size/2, size, iterations); // centré
+    pop();
+}
+
+function drawKochFlake(x, y, len, iter) {
+    let points = [];
+    for (let i = 0; i < 3; i++) {
+        let angle = TWO_PI / 3 * i - PI / 2;
+        points.push(createVector(x + len * cos(angle), y + len * sin(angle)));
+    }
+    for (let i = 0; i < 3; i++) {
+        let a = points[i];
+        let b = points[(i+1)%3];
+        drawKochSegment(a.x, a.y, b.x, b.y, iter);
+    }
+}
+
+function drawKochSegment(x1, y1, x2, y2, iter) {
+    if (iter == 0) {
+        line(x1, y1, x2, y2);
+    } else {
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+
+        let xA = x1 + dx / 3;
+        let yA = y1 + dy / 3;
+
+        let xB = x1 + dx * 2 / 3;
+        let yB = y1 + dy * 2 / 3;
+
+        let angle = atan2(dy, dx) - PI/3;
+        let length = dist(x1, y1, x2, y2) / 3;
+        let xC = xA + cos(angle) * length;
+        let yC = yA + sin(angle) * length;
+
+        drawKochSegment(x1, y1, xA, yA, iter-1);
+        drawKochSegment(xA, yA, xC, yC, iter-1);
+        drawKochSegment(xC, yC, xB, yB, iter-1);
+        drawKochSegment(xB, yB, x2, y2, iter-1);
+    }
+}
+
+// Zoom
+function mouseWheel(event) { zoom *= (event.delta > 0) ? 0.9 : 1.1; }
+function zoomIn() { zoom *= 1.1; }
+function zoomOut() { zoom *= 0.9; }
+
+// Ajustement des itérations
+function updateIterations(val) {
+    iterations = parseInt(val);
+    document.getElementById('iteration-label').textContent = "Itérations: " + val;
+}
+
+// Redimensionnement responsive
+function windowResized() {
+    const container = document.getElementById('canvas-container');
+    resizeCanvas(container.offsetWidth, container.offsetHeight);
+}
+</script>
+
+</body>
+</html>
+

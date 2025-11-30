@@ -1,133 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Elliptisches Billard — p5.js</title>
-  <style>
-    html,body{height:100%;margin:0;background:#222;color:#eee;font-family:Arial;overflow:hidden;}
-    #defaultCanvas0{display:block;margin:0 auto; touch-action: none;}
-    .hint{position:fixed;left:10px;top:10px;background:rgba(0,0,0,0.4);padding:6px;border-radius:6px;font-size:14px;}
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Caesar-Verschlüsselung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 25px;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        th {
+            background: #eee;
+        }
+        input, button {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-top: 10px;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    </style>
 </head>
 <body>
-<div class="hint">
-  Tippen und ziehen auf die weiße Kugel, um zu zielen / die Stärke einzustellen → loslassen, um zu stoßen. <br>
-  Tippe oben links zum Neustart.
+
+<h2>Logique audioactive</h2>
+
+<h3>La suite de Conway</h3>
+
+<p>En 1977, en marge es olympiades mathématiques de Belgrade est proposée une suite mystérieuse de termes, dont est dit qu'ils suivent une logique audioactive.</p>
+
+<p>Le tableau suivant présente les premier termes :</p>
+
+<div>
+<table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
+  <tr style="background: #111;">
+    <th style="border:1px solid #ccc; padding:6px;">Numéro</th>
+    <th style="border:1px solid #ccc; padding:6px;">Terme de la suite</th>
+  </tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">0</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">11</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">21</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">1211</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">4</td><td style="border:1px solid #ccc; padding:6px;">111221</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">5</td><td style="border:1px solid #ccc; padding:6px;">312211</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">6</td><td style="border:1px solid #ccc; padding:6px;">13112221</td></tr>
+</table>
 </div>
-<script>
-let table = {cx:0, cy:0, a:0, b:0};
-let cue, obj;
-let pocket;
-let dragging = false;
-let startTouch = null;
-let friction = 0.995;
-let score = false;
-let successTimer = 0;
 
-function setup(){
-  createCanvas(windowWidth, windowHeight);
-  table.cx = width/2; table.cy = height/2;
-  table.a = width*0.42; table.b = height*0.38;
-  resetGame();
-}
+<p>Pour un terme donné, le terme suivant est obtenu en lisant à haute voix le nombre de termes y apparaissant dans l'ordre.</p>
 
-function resetGame(){
-  cue = {x: table.cx - table.a*0.5, y: table.cy, r:14, vx:0, vy:0, color:[250,250,250]};
-  obj = {x: table.cx + table.a*0.25, y: table.cy-30, r:14, vx:0, vy:0, color:[200,30,30]};
-  pocket = {x: table.cx + table.a*0.9, y: table.cy, r:22};
-  dragging = false; startTouch = null; score = false; successTimer = 0;
-}
+<p>La suite a été étudiée notamment par le célèbre mathématicien John Conway en 1986.</p>
 
-function draw(){
-  background(30,30,40);
-  drawTable();
-  updateBalls();
-  drawObjects();
-  if(score) drawSuccessMessage();
-}
+<h3>Quelques propriétés</h3>
 
-function drawTable(){
-  push();translate(table.cx,table.cy);
-  noStroke(); fill(10,60,20); ellipse(0,0,table.a*2+30,table.b*2+30);
-  fill(40,120,80); stroke(180); strokeWeight(2); ellipse(0,0,table.a*2,table.b*2);
-  pop();
-  fill(10); noStroke(); ellipse(pocket.x,pocket.y,pocket.r*2,pocket.r*2);
-}
+<p>Malgré le mystère entourant la définition de cette suite, on en connait certaines propriétés. Les études portent notamment sur l'étude du nombre de chiffres de chaque terme.</p>
 
-function updateBalls(){
-  let balls = [cue,obj];
-  for(let b of balls){
-    b.x += b.vx; b.y += b.vy;
-    b.vx *= friction; b.vy *= friction;
-    if(abs(b.vx)<0.0005) b.vx=0;
-    if(abs(b.vy)<0.0005) b.vy=0;
-    handleEllipseCollision(b);
-  }
-  handleBallBallCollision(cue,obj);
-  if(!score && dist(obj.x,obj.y,pocket.x,pocket.y)<pocket.r){
-    score=true; cue.vx=cue.vy=obj.vx=obj.vy=0; successTimer=frameCount;
-  }
-}
+<p><b>Propriété 1. </b>Les seuls chiffres qui apparaissent sont 1, 2 ou 3.</p>
 
-function drawObjects(){
-  noFill(); stroke(0,0,0,60); strokeWeight(2); ellipse(pocket.x,pocket.y,pocket.r*2+6,pocket.r*2+6);
-  drawBall(obj); drawBall(cue);
-  if(dragging && startTouch){
-    stroke(255,200); strokeWeight(2); line(cue.x,cue.y,startTouch.x,startTouch.y);
-    let power=dist(cue.x,cue.y,startTouch.x,startTouch.y);
-    noStroke(); fill(255,255,255,80); ellipse(cue.x,cue.y,cue.r*2+constrain(power,0,200),cue.r*2+constrain(power,0,200));
-  }
-}
+<p><b>Propriété 2. </b>Chaque terme, hormis le premier possède un nombre paire de chiffres.</p>
 
-function drawBall(b){
-  push();translate(b.x,b.y); noStroke(); fill(b.color[0],b.color[1],b.color[2]); ellipse(0,0,b.r*2,b.r*2);
-  fill(255,255,255,80); ellipse(-b.r*0.4,-b.r*0.4,b.r*0.7,b.r*0.7); pop();
-}
+<p><b>Propriété 3. </b>Le nombre de chiffre dans chaque terme de la suite est croissant.</p>
 
-function drawSuccessMessage(){
-  let alpha = map(sin((frameCount-successTimer)*0.1),-1,1,100,255);
-  textSize(26); textAlign(CENTER,CENTER); fill(255,220,0,alpha);
-  text("Super! Die Kugel ist im Loch! Tippe oben links zum Neustart.", width/2, height/2);
-}
+<h3>Généralisations</h3>
 
-function handleEllipseCollision(b){
-  let nx=(b.x-table.cx)/table.a; let ny=(b.y-table.cy)/table.b;
-  if(nx*nx+ny*ny>1){
-    let px=b.x-table.cx; let py=b.y-table.cy; let nxn=px/(table.a*table.a); let nyn=py/(table.b*table.b);
-    let nlen=sqrt(nxn*nxn+nyn*nyn); if(nlen==0) return; nxn/=nlen; nyn/=nlen;
-    while(((b.x-table.cx)/table.a)**2+((b.y-table.cy)/table.b)**2>1){b.x-=nxn*0.5;b.y-=nyn*0.5;}
-    reflectVelocity(b,nxn,nyn); b.vx*=0.98;b.vy*=0.98;
-  }
-}
+<p>On peut généraliser la suite de Conway en suivant la même logique audioactive: par exemple, le terme suivant <b>2221133111</b> est donné par <b>32212331</b>.</p>
 
-function reflectVelocity(b,nxn,nyn){ let vdotn=b.vx*nxn+b.vy*nyn; b.vx-=2*vdotn*nxn; b.vy-=2*vdotn*nyn; }
+<p>L'application suivante donne le terme suivant le term entré dans le formulaire:</p>
 
-function handleBallBallCollision(a,b){
-  let dx=b.x-a.x,dy=b.y-a.y,d=sqrt(dx*dx+dy*dy),minD=a.r+b.r;
-  if(d<minD && d>0){ let overlap=(minD-d)/2,nx=dx/d,ny=dy/d; a.x-=nx*overlap;a.y-=ny*overlap;b.x+=nx*overlap;b.y+=ny*overlap;
-  let va=a.vx*nx+a.vy*ny,vb=b.vx*nx+b.vy*ny,vaAfter=vb,vbAfter=va; let da=vaAfter-va,db=vbAfter-vb; a.vx+=da*nx;a.vy+=da*ny;b.vx+=db*nx;b.vy+=db*ny; a.vx*=0.999;a.vy*=0.999;b.vx*=0.999;b.vy*=0.999;}}
+<input type="text" id="inputSeq" placeholder="Entrez une suite (ex: 1211)">
+  <button onclick="nextTerm()">Obtenir le terme suivant</button>
 
+  <div id="result"></div>
 
+  <script>
+    function lookAndSay(seq) {
+      let result = "";
+      let i = 0;
 
+      while (i < seq.length) {
+        let count = 1;
 
-function mousePressed(){
-  if(touchX<50 && touchY<50){ resetGame(); return false; }
-  if(dist(touchX,touchY,cue.x,cue.y)<cue.r+10 && cue.vx==0 && cue.vy==0){
-    dragging=true; startTouch={x:touchX,y:touchY}; //return false;
-  }
-  if(dragging){ startTouch={x:touchX,y:touchY}; return false; }
-}
+        while (i + 1 < seq.length && seq[i] === seq[i + 1]) {
+          count++;
+          i++;
+        }
 
-function mouseReleased(){
-  if(dragging && startTouch){
-    let force=createVector(cue.x-startTouch.x,cue.y-startTouch.y); let scale=0.08; cue.vx+=force.x*scale; cue.vy+=force.y*scale;
-  }
-  dragging=false; startTouch=null;
-}
+        result += count + seq[i];
+        i++;
+      }
 
-</script>
+      return result;
+    }
+
+    function nextTerm() {
+      const input = document.getElementById("inputSeq").value.trim();
+      if (!/^\d+$/.test(input)) {
+        document.getElementById("result").innerText = "Veuillez entrer uniquement des chiffres.";
+        return;
+      }
+
+      const next = lookAndSay(input);
+      document.getElementById("result").innerText = "Terme suivant : " + next;
+    }
+  </script>
+
 </body>
 </html>
 

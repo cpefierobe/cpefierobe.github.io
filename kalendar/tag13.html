@@ -1,54 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tag 1 — Wo ist Rick?</title>
-  <style>
-    body {
-      margin:0;
-      background:#0b0f14;
-      color:#e8f6f2;
-      font-family: "Segoe UI", Roboto, sans-serif;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      padding:20px;
+    <meta charset="UTF-8">
+    <title>Caesar-Verschlüsselung</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 8px;
+            width: 100%;
+            font-size: 16px;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            background: #f9f9f9;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-top: 25px;
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
+            text-align: center;
+        }
+        th {
+            background: #eee;
+        }
+        input, button {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-top: 10px;
     }
-    .card {
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.05);
-      border-radius:14px;
-      padding:28px;
-      max-width:700px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.6);
+
+    button {
+      cursor: pointer;
     }
-    h1 {color:#6ee7b7;font-size:1.5rem;margin-top:0;}
-    p {line-height:1.5;margin:0 0 1em 0;}
-    .action {font-style:italic;color:#c9d3ff;}
-    a {
-      display:inline-block;
-      margin-top:10px;
-      color:#6ee7b7;
-      text-decoration:none;
-      border:1px solid rgba(110,231,183,0.2);
-      padding:6px 12px;
-      border-radius:8px;
-      font-weight:600;
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
     }
-    a:hover {background:rgba(110,231,183,0.1);}
-  </style>
+    </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Oh man, il pleut...</h1>
-    <p>Des flaques d'eau partout...</p>
-    <p class="action">Oh, un oiseau vient de disparaître en buvant dans une flaque!! Ca veut dire...</p>
-    <p>Les flaques ont l'air interconnectée, comme par des trous de vers.</p>
-    <p>Je dois aller trouver si Rick ne se cache pas derrière tout ça!</p>
-    <a href="tag13_portails.html">Zum Garten →</a>
-  </div>
+
+<h2>Les nombres parfaits</h2>
+
+<p>Les nombres parfaits sont des nombres particuliers, qui étaient déjà connus et étudiés par Euclide au IIIème siècle avant notre ère !</p>
+
+<p>Pour comprendre si un nombre est parfait ou non, il faut étudier ses diviseurs, c'est à dire tous les nombre qui le divisent.</p>
+
+<p>Par exemple, les diviseurs de 4 sont 1,2,4, car toute division avec un autre nombre n'est pas entier, c'est à dire sans virgules.</p>
+
+<p>Diviseurs de 2: 1,2</p>
+<p>Diviseurs de 8: 1,2,4,8</p>
+<p>Diviseurs de 10: 1,2,5,10</p>
+<p>Diviseurs de 20: 1,2,5,10,20</p>
+
+<p>On remarque que 1 et le nombre lui-même sont toujours des diviseurs: par exemple 1 et 101 sont des diviseurs de 101!</p>
+
+<p>Un nombre est <b>parfait</b> si la somme de ses diviseurs (en excluant lui-même) vaut le nombre.</p>
+
+<p>4 n'est pas parfait, car ses diviseurs autre que 4 sont: 1 et 2. Mais 1+2=3.</p>
+<p>6 est parfait car ses diviseurs autres que 6 sont: 1,2,3 et 1+2+3=6.</p>
+
+<p>Ci-dessous une liste contenant les premiers nombres parfaits:</p>
+
+<div>
+<table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
+  <tr style="background: #111;">
+    <th style="border:1px solid #ccc; padding:6px;">Numéro</th>
+    <th style="border:1px solid #ccc; padding:6px;">Nombre parfait</th>
+    <th style="border:1px solid #ccc; padding:6px;">Diviseurs</th>
+  </tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">6</td><td style="border:1px solid #ccc; padding:6px;">1,2,3,6</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">2</td><td style="border:1px solid #ccc; padding:6px;">28</td>
+<td style="border:1px solid #ccc; padding:6px;">1,2,4,7,14,28</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">3</td><td style="border:1px solid #ccc; padding:6px;">496</td>
+<td style="border:1px solid #ccc; padding:6px;">1,2,4,8,16,31,62,124,248,496</td></tr>
+  <tr><td style="border:1px solid #ccc; padding:6px;">4</td><td style="border:1px solid #ccc; padding:6px;">8128</td>
+<td style="border:1px solid #ccc; padding:6px;">1,2,4,8,16,32,64,127,254,508,1016,2032,4064,8128</td></tr>
+</table>
+</div>
+
 </body>
 </html>
 

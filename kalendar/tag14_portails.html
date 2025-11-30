@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>Portails — p5.js</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.min.js"></script>
+  <style>
+    html,body{margin:0;padding:0;background:#88b36f;height:100%}
+    #defaultCanvas0{display:block;margin:0 auto}
+    .hud{position:fixed;top:8px;left:0;right:0;display:flex;justify-content:center;z-index:10}
+    .pill{background:#222;color:#fff;padding:8px 14px;border-radius:20px;font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="hud"><div class="pill" id="targetPill">Portail cible: —</div></div>
+
+<script>
+let player;
+let portals=[];
+let targetNumber;
+let teleportCooldown=0;
+let showBlack=false;
+let blackMessage="";
+let move={l:false,r:false,u:false,d:false};
+
+function setup(){
+  createCanvas(min(windowWidth,420), windowHeight);
+  player={x:width/2,y:height/2,r:16};
+  generatePortals();
+  chooseTarget();
+}
+
+function windowResized(){
+  resizeCanvas(min(windowWidth,420), windowHeight);
+}
+
+function draw(){
+  if(showBlack){
+    background(0);
+    fill(255);textAlign(CENTER,CENTER);textSize(20);
+    text(blackMessage,width/2,height/2);
+    return;
+  }
+
+  background(110,165,110);
+
+  for(let p of portals) drawPortal(p);
+
+  handleInput();
+  constrainPlayer();
+
+  if(teleportCooldown>0) teleportCooldown--;
+  else{
+    let hit = checkPortalCollision();
+    if(hit) triggerPortal(hit);
+  }
+
+  drawPlayer();
+}
+
+/* ------------------------------------
+   101 PORTAILS (0 à 100)
+-------------------------------------*/
+function generatePortals(){
+  portals=[];
+  for(let i=0;i<=100;i++){
+    portals.push({
+      x: random(40, width-40),
+      y: random(80, height-80),
+      r: 20,
+      num: i,
+      phase: random(TWO_PI)
+    });
+  }
+}
+
+/* ------------------------------------
+   NUMÉRO CIBLE : nombre entre 0 et 100
+-------------------------------------*/
+function chooseTarget(){
+  targetNumber = 28;//int(random(0,101));
+  document.getElementById("targetPill").innerText = "Portail cible: " + targetNumber;
+}
+
+function drawPortal(p){
+  push();
+  noStroke();
+  fill(10,30,60,70);
+  ellipse(p.x,p.y+p.r*0.3,p.r*2.4,p.r*1.1);
+
+  fill(60,140,200);
+  ellipse(p.x,p.y,p.r*2,p.r*1.2);
+
+  let t=(millis()/500+p.phase)%TWO_PI;
+  let k=(sin(t)+1)/2;
+  noFill(); stroke(255,180*(1-k)); strokeWeight(1);
+  ellipse(p.x,p.y,p.r*2+20*k,p.r*1.2+10*k);
+
+  noStroke(); fill(255); textAlign(CENTER,CENTER); textSize(12);
+  text(p.num,p.x,p.y);
+  pop();
+}
+
+function drawPlayer(){
+  push(); 
+  noStroke();
+  fill(50);
+  rectMode(CENTER);
+  rect(player.x,player.y+6,26,30,6);
+  fill(240,210,170);
+  ellipse(player.x,player.y-10,28,28);
+  pop();
+}
+
+function handleInput(){
+  let s=2.3;
+  if(move.l) player.x-=s;
+  if(move.r) player.x+=s;
+  if(move.u) player.y-=s;
+  if(move.d) player.y+=s;
+}
+
+function constrainPlayer(){
+  player.x=constrain(player.x,10,width-10);
+  player.y=constrain(player.y,10,height-10);
+}
+
+function checkPortalCollision(){
+  for(let p of portals){
+    if(dist(player.x,player.y,p.x,p.y) < p.r*0.8) return p;
+  }
+  return null;
+}
+
+/* -------------------------------
+   TÉLÉPORTATION À CÔTÉ D'UN AUTRE
+--------------------------------*/
+function triggerPortal(p){
+  if(p.num === targetNumber){
+    showBlack=true;
+    blackMessage="Bravo ! Portail "+targetNumber+" trouvé.\nAppuyez sur R pour rejouer.";
+    return;
+  }
+
+  let other;
+  do{
+    other = portals[int(random(portals.length))];
+  } while(other === p);
+
+  let a = random(TWO_PI);
+  let d = other.r + 40;
+  player.x = other.x + cos(a)*d;
+  player.y = other.y + sin(a)*d;
+
+  teleportCooldown = 25;
+}
+
+function keyPressed(){
+  if(key==='ArrowLeft') move.l=true;
+  if(key==='ArrowRight') move.r=true;
+  if(key==='ArrowUp') move.u=true;
+  if(key==='ArrowDown') move.d=true;
+  if(key==='r' || key==='R') restart();
+}
+
+function keyReleased(){
+  if(key==='ArrowLeft') move.l=false;
+  if(key==='ArrowRight') move.r=false;
+  if(key==='ArrowUp') move.u=false;
+  if(key==='ArrowDown') move.d=false;
+}
+
+function restart(){
+  showBlack=false;
+  generatePortals();
+  chooseTarget();
+  player.x=width/2; 
+  player.y=height/2;
+  teleportCooldown=0;
+}
+</script>
+
+</body>
+</html>
+

@@ -1,172 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Gravité + Rebonds</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Bildkodierung RGB mod 256</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.7.0/lib/p5.min.js"></script>
 
   <style>
-    body { margin:0; padding:0; overflow:hidden; touch-action:none; }
-    #ui {
-      position:absolute; top:10px; left:10px; right:10px;
-      display:flex; flex-direction:column; gap:10px;
-      font-family:sans-serif; color:white;
-      z-index:10;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: white;
     }
-    #endMessage, #startMessage, #loseMessage {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 30px;
-      font-weight: bold;
-      text-shadow: 0 0 10px black;
-      display: none;
+    label, input, button {
+      font-size: 18px;
+      width: 90%;
+      max-width: 400px;
+      margin-top: 12px;
+    }
+    #canvasContainer {
+      margin-top: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      background: white;
     }
   </style>
 </head>
-
 <body>
 
-<div id="ui">
-    Masse planète :
-    <input type="range" min="50" max="10000" value="1000" id="mass">
-    <button id="startBtn">Los !</button>
-    <button id="resetBtn">Erneut</button>
-</div>
+<label>Bild auswählen:</label>
+<input type="file" id="imageLoader" accept="image/*">
 
-<div id="startMessage">Benutz die Gravitation!</div>
-<div id="endMessage" style="text-align: center;">Bravo Morty! Die Kode für das Bild in meinem Brief ist ... Du wirst sie später brauchen!</div>
-<div id="loseMessage">Verloren!</div>
+<label>Schlüssel R:</label>
+<input type="number" id="keyR" value="3">
+
+<label>Schlüssel G:</label>
+<input type="number" id="keyG" value="5">
+
+<label>Schlüssel B:</label>
+<input type="number" id="keyB" value="7">
+
+<button id="encodeBtn">Kodieren</button>
+<button id="downloadBtn" disabled>Herunterladen</button>
+
+<div id="canvasContainer"></div>
 
 <script>
-let projectile, planet, target;
-let launched = false;
-let gameOver = false;
-
-let G = 0.9;
-let softening = 50;
-let damping = 0.999;
+let originalImg = null;
+let encodedImg = null;
+let canvas = null;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  resetSim();
+  // Canvas plein écran largeur (hauteur fixe)
+  canvas = createCanvas(windowWidth * 0.95, windowHeight * 0.6);
+  canvas.parent("canvasContainer");
+  background(255);
 
-  document.getElementById("startBtn").onclick = () => {
-    if (gameOver) return;
-    launched = true;
-    document.getElementById("startMessage").style.display = "none";
-  };
-  
-  document.getElementById("resetBtn").onclick = resetSim;
+  document.getElementById("imageLoader").addEventListener("change", handleFile);
+  document.getElementById("encodeBtn").addEventListener("click", encodeImage);
+  document.getElementById("downloadBtn").addEventListener("click", downloadImage);
 }
 
-function resetSim() {
-  launched = false;
-  gameOver = false;
 
-  document.getElementById("endMessage").style.display = "none";
-  document.getElementById("loseMessage").style.display = "none";
-  document.getElementById("startMessage").style.display = "block";
+// Chargement + affichage immédiat
+function handleFile(event) {
+  let file = event.target.files[0];
+  if (!file) return;
 
-  projectile = {
-    pos: createVector(width*0.1, height*0.65),
-    vel: createVector(4, -0.5),
-    mass: 1,
-    r: 10
-  };
+  let url = URL.createObjectURL(file);
 
-  planet = {
-    pos: createVector(width*0.5, height*0.5),
-    vel: createVector(0, 0),
-    mass: parseFloat(document.getElementById("mass").value),
-    r: map(parseFloat(document.getElementById("mass").value), 50, 10000, 20, 90)
-  };
-
-  target = createVector(width*0.85, height*0.25);
+  loadImage(url, img => {
+    originalImg = img;
+    encodedImg = null;
+    background(255);
+    drawImageFit(originalImg);
+    document.getElementById("downloadBtn").disabled = true;
+  });
 }
 
-function draw() {
-  background(10);
 
-  if (gameOver) {  
-    drawBodies();
-    drawTarget();
-    return;
+// Affiche l’image dans le canvas sans toucher au canvas
+function drawImageFit(img) {
+  let w = img.width;
+  let h = img.height;
+
+  let ratio = min(width / w, height / h);
+  let newW = w * ratio;
+  let newH = h * ratio;
+
+  image(img, (width - newW) / 2, (height - newH) / 2, newW, newH);
+}
+
+
+// Encoder l’image
+function encodeImage() {
+  if (!originalImg) return;
+
+  let kR = int(document.getElementById("keyR").value);
+  let kG = int(document.getElementById("keyG").value);
+  let kB = int(document.getElementById("keyB").value);
+
+  encodedImg = createImage(originalImg.width, originalImg.height);
+  encodedImg.copy(originalImg, 0, 0, originalImg.width, originalImg.height, 0, 0, originalImg.width, originalImg.height);
+
+  encodedImg.loadPixels();
+
+  for (let i = 0; i < encodedImg.pixels.length; i += 4) {
+    encodedImg.pixels[i]     = (encodedImg.pixels[i]     * kR) % 256;
+    encodedImg.pixels[i + 1] = (encodedImg.pixels[i + 1] * kG) % 256;
+    encodedImg.pixels[i + 2] = (encodedImg.pixels[i + 2] * kB) % 256;
   }
 
-  if (!launched) {
-    planet.mass = parseFloat(document.getElementById("mass").value);
-    planet.r = map(planet.mass, 50, 10000, 20, 90);
+  encodedImg.updatePixels();
+
+  background(255);
+  drawImageFit(encodedImg);
+
+  document.getElementById("downloadBtn").disabled = false;
+}
+
+
+// Télécharger
+function downloadImage() {
+  if (encodedImg) {
+    encodedImg.save("kodiertes_bild.png");
   }
-
-  drawTarget();
-
-  if (launched) applyGravity();
-  if (launched) updateBodies();
-
-  // Vérifie si collision = défaite
-  if (projectile.pos.dist(planet.pos) < projectile.r + planet.r) {
-    launched = false;
-    gameOver = true;
-    document.getElementById("loseMessage").style.display = "block";
-  }
-
-  drawBodies();
-
-  // Victoire ?
-  if (!gameOver && launched && projectile.pos.dist(target) < 25) {
-    launched = false;
-    document.getElementById("endMessage").style.display = "block";
-  }
-}
-
-function drawTarget() {
-  stroke(0,255,0); strokeWeight(3); noFill();
-  ellipse(target.x, target.y, 40);
-
-  noStroke();
-  fill(255);
-  textAlign(CENTER, CENTER);
-  textSize(20);
-  text("Ziel", target.x, target.y - 35);
-}
-
-function applyGravity() {
-  let dirP = p5.Vector.sub(planet.pos, projectile.pos);
-  let distSq = dirP.magSq() + softening*softening;
-
-  let force = (G * planet.mass * projectile.mass) / distSq;
-
-  projectile.vel.add(dirP.setMag(force));
-  planet.vel.add(
-    p5.Vector.sub(projectile.pos, planet.pos).setMag(force / planet.mass)
-  );
-
-  projectile.vel.mult(damping);
-  planet.vel.mult(damping);
-}
-
-function updateBodies() {
-  projectile.pos.add(projectile.vel);
-  planet.pos.add(planet.vel);
-}
-
-function drawBodies() {
-  noStroke();
-
-  // planète
-  fill(120,120,255);
-  ellipse(planet.pos.x, planet.pos.y, planet.r*2);
-
-  // projectile
-  fill(255,120,120);
-  ellipse(projectile.pos.x, projectile.pos.y, projectile.r*2);
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  resetSim();
 }
 </script>
 
