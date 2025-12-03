@@ -1,74 +1,95 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Caesar-Verschlüsselung</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-        }
-        input, button {
-            margin-top: 10px;
-            padding: 8px;
-            width: 100%;
-            font-size: 16px;
-        }
-        #output {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            font-weight: bold;
-            background: #f9f9f9;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audioaktive Logik – Conway-Folge</title>
 
-        table {
-            border-collapse: collapse;
-            margin-top: 25px;
-            width: 100%;
-        }
-        td, th {
-            border: 1px solid #ccc;
-            padding: 6px 10px;
-            text-align: center;
-        }
-        th {
-            background: #eee;
-        }
-        input, button {
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 15px;
+      max-width: 900px;
+      line-height: 1.6;
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    table {
       width: 100%;
-      padding: 10px;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background: #111;
+      color: white;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #bbb;
       box-sizing: border-box;
-      margin-top: 10px;
     }
 
     button {
+      background: #333;
+      color: white;
       cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #555;
     }
 
     #result {
       margin-top: 15px;
       font-weight: bold;
+      background: #f2f2f2;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
     }
-    </style>
+
+    /* Mobile optimisations */
+    @media (max-width: 600px) {
+      h2 { font-size: 22px; }
+      h3 { font-size: 18px; }
+      body { padding: 10px; }
+      table { font-size: 14px; }
+    }
+  </style>
 </head>
 <body>
 
-<h2>Logique audioactive</h2>
+<h2>Audioaktive Logik</h2>
+<h3>Die Conway-Folge</h3>
 
-<h3>La suite de Conway</h3>
+<p>Im Jahr 1977 wurde am Rande der Mathematik-Olympiade in Belgrad eine geheimnisvolle Zahlenfolge vorgeschlagen, von der gesagt wird, dass sie einer audioaktiven Logik folgt.</p>
 
-<p>En 1977, en marge es olympiades mathématiques de Belgrade est proposée une suite mystérieuse de termes, dont est dit qu'ils suivent une logique audioactive.</p>
-
-<p>Le tableau suivant présente les premier termes :</p>
+<p>Die folgende Tabelle zeigt die ersten Terme:</p>
 
 <div>
 <table style="border-collapse: collapse; width: 100%; font-size: 16px; margin-top: 15px; text-align: center;">
   <tr style="background: #111;">
-    <th style="border:1px solid #ccc; padding:6px;">Numéro</th>
-    <th style="border:1px solid #ccc; padding:6px;">Terme de la suite</th>
+    <th style="border:1px solid #ccc; padding:6px;">Nummer</th>
+    <th style="border:1px solid #ccc; padding:6px;">Folgenterm</th>
   </tr>
   <tr><td style="border:1px solid #ccc; padding:6px;">0</td><td style="border:1px solid #ccc; padding:6px;">1</td></tr>
   <tr><td style="border:1px solid #ccc; padding:6px;">1</td><td style="border:1px solid #ccc; padding:6px;">11</td></tr>
@@ -80,32 +101,32 @@
 </table>
 </div>
 
-<p>Pour un terme donné, le terme suivant est obtenu en lisant à haute voix le nombre de termes y apparaissant dans l'ordre.</p>
+<p>Für einen gegebenen Term erhält man den nächsten, indem man laut vorliest, wie viele gleiche Ziffern hintereinander erscheinen.</p>
 
-<p>La suite a été étudiée notamment par le célèbre mathématicien John Conway en 1986.</p>
+<p>Die Folge wurde insbesondere 1986 vom berühmten Mathematiker John Conway untersucht.</p>
 
-<h3>Quelques propriétés</h3>
+<h3>Einige Eigenschaften</h3>
 
-<p>Malgré le mystère entourant la définition de cette suite, on en connait certaines propriétés. Les études portent notamment sur l'étude du nombre de chiffres de chaque terme.</p>
+<p>Trotz des rätselhaften Charakters ihrer Definition kennt man einige Eigenschaften dieser Folge. Die Untersuchungen beziehen sich insbesondere auf die Anzahl der Ziffern jedes Terms.</p>
 
-<p><b>Propriété 1. </b>Les seuls chiffres qui apparaissent sont 1, 2 ou 3.</p>
+<p><b>Eigenschaft 1. </b>Die einzigen vorkommenden Ziffern sind 1, 2 oder 3.</p>
 
-<p><b>Propriété 2. </b>Chaque terme, hormis le premier possède un nombre paire de chiffres.</p>
+<p><b>Eigenschaft 2. </b>Jeder Term – außer dem ersten – besitzt eine gerade Anzahl an Ziffern.</p>
 
-<p><b>Propriété 3. </b>Le nombre de chiffre dans chaque terme de la suite est croissant.</p>
+<p><b>Eigenschaft 3. </b>Die Anzahl der Ziffern jedes Terms wächst stetig.</p>
 
-<h3>Généralisations</h3>
+<h3>Verallgemeinerungen</h3>
 
-<p>On peut généraliser la suite de Conway en suivant la même logique audioactive: par exemple, le terme suivant <b>2221133111</b> est donné par <b>32212331</b>.</p>
+<p>Man kann die Conway-Folge verallgemeinern, indem man dieselbe audioaktive Logik anwendet: Zum Beispiel ergibt sich aus dem Term <b>2221133111</b> der folgende Term <b>32212331</b>.</p>
 
-<p>L'application suivante donne le terme suivant le term entré dans le formulaire:</p>
+<p>Die folgende Anwendung gibt den nächsten Term zur eingegebenen Folge aus:</p>
 
-<input type="text" id="inputSeq" placeholder="Entrez une suite (ex: 1211)">
-  <button onclick="nextTerm()">Obtenir le terme suivant</button>
+<input type="text" id="inputSeq" placeholder="Geben Sie eine Folge ein (z. B. 1211)">
+<button onclick="nextTerm()">Nächsten Term erhalten</button>
 
-  <div id="result"></div>
+<div id="result"></div>
 
-  <script>
+<script>
     function lookAndSay(seq) {
       let result = "";
       let i = 0;
@@ -128,14 +149,14 @@
     function nextTerm() {
       const input = document.getElementById("inputSeq").value.trim();
       if (!/^\d+$/.test(input)) {
-        document.getElementById("result").innerText = "Veuillez entrer uniquement des chiffres.";
+        document.getElementById("result").innerText = "Bitte geben Sie nur Ziffern ein.";
         return;
       }
 
       const next = lookAndSay(input);
-      document.getElementById("result").innerText = "Terme suivant : " + next;
+      document.getElementById("result").innerText = "Nächster Term: " + next;
     }
-  </script>
+</script>
 
 </body>
 </html>
