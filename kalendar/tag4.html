@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Gravité + Rebonds (Mobile)</title>
+  <title>Gravitation</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -56,15 +56,30 @@
 <body>
 
 <div id="ui">
-    Masse planète :
+    Planetenmasse :
     <input type="range" min="50" max="10000" value="1500" id="mass">
-    <button id="startBtn">Lancer</button>
-    <button id="resetBtn">Réinitialiser</button>
+    <button id="startBtn">Starten</button>
+    <button id="resetBtn">Zurücksetzen</button>
 </div>
 
-<div id="startMessage">Utilise la gravitation !</div>
-<div id="endMessage"><p>Bravo !<br/>Tu as atteint la cible.</p></div>
-<div id="loseMessage">Perdu !</div>
+<div id="startMessage">Benutze die Gravitation!</div>
+
+<div id="endMessage" style="text-align: center;">
+    <p>Bravo Morty!<br/>
+    Um meinen zweiten Brief zu entschlüsseln, brauchst du 3 Farbintensitäten:<br/>
+     - Rot R,<br/> 
+     - Grün G,<br/>
+     - Blau B.<br/>
+    G und B sind so, dass
+    \[
+    G + B = 156 \qquad
+    \text{ und }
+    \qquad G - B = 110.
+    \]
+    </p>
+</div>
+
+<div id="loseMessage">Verloren!</div>
 
 <script>
 let projectile, planet, target;
@@ -190,7 +205,7 @@ function drawTarget() {
 
   noStroke(); fill(255); textAlign(CENTER, CENTER);
   textSize(26);
-  text("Cible", target.x, target.y - 40);
+  text("Ziel", target.x, target.y - 40);
 }
 
 function windowResized() {
