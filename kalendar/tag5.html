@@ -7,72 +7,79 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <title>Farbenschlüssel</title>
   <style>
-    body {
-      margin:0;
-      background:#0b0f14;
-      color:#e8f6f2;
-      font-family: "Segoe UI", Roboto, sans-serif;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      padding:20px;
-    }
-    .card {
-      background:rgba(255,255,255,0.03);
-      border:1px solid rgba(255,255,255,0.05);
-      border-radius:14px;
-      padding:28px;
-      max-width:700px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.6);
-    }
-    h1 {color:#6ee7b7;font-size:1.5rem;margin-top:0;}
-    p {line-height:1.5;margin:0 0 1em 0;}
-    .action {font-style:italic;color:#c9d3ff;}
-    a {
-      display:inline-block;
-      margin-top:10px;
-      color:#6ee7b7;
-      text-decoration:none;
-      border:1px solid rgba(110,231,183,0.2);
-      padding:6px 12px;
-      border-radius:8px;
-      font-weight:600;
-    }
-    a:hover {background:rgba(110,231,183,0.1);}
-  </style>
+body {
+margin:0;
+background:#0b0f14;
+color:#e8f6f2;
+font-family:"Segoe UI", Roboto, sans-serif;
+display:flex;
+justify-content:center;
+padding:20px;
+min-height:100vh;
+box-sizing:border-box;
+}
+.card {
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.05);
+border-radius:14px;
+padding:20px;
+width:100%;
+max-width:500px;
+box-shadow:0 8px 30px rgba(0,0,0,0.6);
+box-sizing:border-box;
+}
+h1 {color:#6ee7b7;font-size:1.6rem;margin-top:0; text-align:center;}
+p {line-height:1.6;margin:0 0 1em 0;font-size:1rem;}
+img {width:100%;height:auto;border-radius:10px;}
+.action {font-style:italic;color:#c9d3ff;}
+a {
+display:inline-block;
+margin-top:10px;
+color:#6ee7b7;
+text-decoration:none;
+border:1px solid rgba(110,231,183,0.2);
+padding:8px 14px;
+border-radius:8px;
+font-weight:600;
+text-align:center;
+}
+a:hover {background:rgba(110,231,183,0.1);}
+</style>
 </head>
 <body>
   <div class="card">
     <h1>Drei Farben</h1>
+
     <div style="width:auto;">
-    <img src="img/pickle.png" style="width:100%;"/>
+      <img src="img/pickle.png" style="width:100%;"/>
     </div>
 
-    <p>Ah Morty, gestern habe ich Dir nicht alles gesagt. Der Hinweis
-\[
-G+B = 156\qquad
-\text{ und }
-\qquad G-B = 110.
-\]
-    ist nich genug!
-</p>
+    <p>Ah Morty, gestern habe ich dir nicht alles verraten.</p>
 
-<p class="action">Uebrigens kannst du G finden, indem du die Summe der zwei Gleichungen betrachtest...</p>
+    <p>
+      Um den Brief Nr. 3 zu entschlüsseln, brauchst du drei Farbintensitäten:<br/>
+      Die Intensität <b>R</b> von Rot, von 0 bis 255;<br/>
+      Die Intensität <b>G</b> von Grün, von 0 bis 255;<br/>
+      Die Intensität <b>B</b> von Blau, von 0 bis 255.
+    </p>
 
-    <p>Noch einmal, um den Brief Nr. 3, brauchst du drei Intensitäten von Farben:<br/>
-    Die Intensität R von Rot, von 0 zu 255;<br/>
-    Die Intensität G von Grün, von 0 zu 255;<br/>
-    Die Intensität B von Blau, von 0 zu 255.</p>
-
-<p>Aber Morty, ich hatte das folgende vergessen. Es gilt auch die Verbindung:
+    <p>Sie stehen in folgenden Beziehungen:
     \[
-    R+G+B = 407
-    \]</p>
+    G = 110 + B
+    \]
+    \[
+    G = 156 - B
+    \]
+    \[
+    R = 118 + G
+    \]
+    </p>
 
-<p>Schnell Morty, finde R,G und B!!!</p>
+    <p>Schnell Morty, finde R, G und B!</p>
 
-    
+    <p class="action">
+      Übrigens kannst du den Wert von G direkt finden, wenn du die ersten beiden Gleichungen zusammenfasst …
+    </p>
   </div>
 </body>
 </html>
