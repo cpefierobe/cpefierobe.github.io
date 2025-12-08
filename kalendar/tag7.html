@@ -29,6 +29,9 @@ class Ball {
   }
 }
 
+// empêcher le scroll sur mobile
+document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+
 function setup() {
   createCanvas(tableW, tableH);
   resetGame();
@@ -78,24 +81,21 @@ function draw() {
 
   if (gameState !== "play") {
     fill(0);
-    strokeWeight(1);
     textAlign(CENTER, CENTER);
     textSize(32);
-    text(gameState === "win" ? "Congrats Morty!\n Geh vor mein Tafel\n und benutz die\nVerschiebung 17." : "Nocheinmal Morty!", width / 2, height / 2);
+    text(gameState === "win" ? "Gagné !" : "Perdu !", width / 2, height / 2);
     textSize(14);
-    text("Klicken zum Wiederholen", width / 2, height / 2 + 70);
+    text("Cliquez pour recommencer", width / 2, height / 2 + 40);
   }
 }
 
 function drawBalls() {
-   
-  strokeWeight(1);
-  fill(255);
   stroke(0);
+  fill(255);
   ellipse(ballWhite.pos.x, ballWhite.pos.y, ballWhite.r * 2);
 
   fill(255,0,0);
-  stroke(255,0,0);
+  stroke(0);
   ellipse(ballRed.pos.x, ballRed.pos.y, ballRed.r * 2);
 }
 
