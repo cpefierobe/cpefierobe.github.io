@@ -5,15 +5,27 @@
   <title>Corentin Fierobe — Researcher in mathematics</title>
   <style>
 body {
-margin: 0;
-font-family: system-ui, sans-serif;
-line-height: 1.6;
-background: #f9fafb;
-color: #111827;
-max-width: 800px;
-padding: 2rem;
-margin-left: auto;
-margin-right: auto;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  background: #f9fafb;
+  color: #111827;
+
+  display: flex;              /* NEW */
+  flex-direction: row;        /* NEW */
+}
+
+.sidebar {
+  width: 180px;               /* NEW — space reserved for the canvas */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  max-width: 800px;
+  padding: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 h1 {
 font-size: 2rem;
@@ -69,27 +81,24 @@ font-size: 0.85rem;
 color: #6b7280;
 text-align: center;
 }
-  .sidebar {
-    position: fixed;   /* reste collé à la fenêtre */
-    top: 100px;        /* distance depuis le haut */
-    left: 10px;        /* distance depuis la gauche */
-    width: 150px;      /* largeur du bloc */
-    font-size: 0.9rem;
-    color: #374151;
-  }
 </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <script src="projective_billiards.js" defer></script>
 </head>
 <body>
-  <header>	
-<div class="sidebar" id="sketch-container"></div>
-<h1>Corentin Fierobe</h1>
-<p class="description">Researcher in mathematics — dynamical systems, almost integrable systems, KAM theory<br>
-Postdoctoral researcher at Tor Vergata University in Rome<br>
-<span id="emel"></span></p>
-</header>
-<main>
+  <div class="sidebar">
+    <div id="sketch-container"></div>
+  </div>
+
+  <div class="content-wrapper">
+    <header>
+      <h1>Corentin Fierobe</h1>
+      <p class="description">Researcher in mathematics — dynamical systems, almost integrable systems, KAM theory<br>
+      Postdoctoral researcher at Tor Vergata University in Rome<br>
+      <span id="emel"></span></p>
+    </header>
+
+    <main>
   <h2>Publications</h2>
     <ul class="publications">
 		
