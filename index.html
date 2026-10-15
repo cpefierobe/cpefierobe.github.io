@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Corentin Fierobe — Researcher in mathematics</title>
   <style>
-/* ========================================================= Base ========================================================= */ :root { --background: #ffffff; --text: #2b3036; --muted: #69727d; --accent: #315d85; --accent-hover: #1e405f; --border: #e2e6ea; --header-background: #f1f5f9; } * { box-sizing: border-box; } html { scroll-behavior: smooth; } body { margin: 0; background: var(--background); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; } /* ========================================================= Layout ========================================================= */ .sidebar { display: none; } .content-wrapper { width: min(100% - 48px, 860px); margin: 0 auto; } main { padding: 12px 0 48px; } /* ========================================================= Header ========================================================= */ header { position: relative; isolation: isolate; padding: 64px 0 32px; border-bottom: 1px solid var(--border); } /* Extend the header background beyond the centered content-wrapper so that it covers the entire viewport. */ header::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: var(--header-background); } /* ========================================================= Typography ========================================================= */ h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 2.7rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.2; } .description { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.85; } h2 { margin: 42px 0 18px; padding-bottom: 9px; border-bottom: 1px solid var(--border); font-size: 1.3rem; font-weight: 500; letter-spacing: -0.015em; line-height: 1.3; } h3 { margin: 0; font-size: 1rem; font-weight: 500; line-height: 1.55; } /* ========================================================= Links ========================================================= */ a { color: var(--accent); text-decoration: none; text-underline-offset: 3px; transition: color 0.15s ease, text-decoration-color 0.15s ease; } a:hover { color: var(--accent-hover); text-decoration: underline; } a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; } .cv-link { white-space: nowrap; } #emel a { color: inherit; text-decoration: none; font-weight: normal; } /* ========================================================= Publications ========================================================= */ .publications { margin: 0; padding: 0; list-style: none; } .publications > li { margin: 0; padding: 20px 0; border-bottom: 1px solid var(--border); } .publications > li:last-child { border-bottom: none; } /* Publication links: [arXiv], [DOI], [PDF] */ .publications > li h3 a { display: inline-block; margin-left: 4px; font-size: 0.72rem; font-weight: 500; white-space: nowrap; vertical-align: 0.08em; } /* Authors / journal information */ .meta { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.65; } /* ========================================================= p5.js sketch ========================================================= */ #sketch-container { max-width: 100%; margin: 32px auto; overflow: hidden; } #sketch-container canvas { display: block; max-width: 100%; height: auto; } /* ========================================================= Footer ========================================================= */ footer { padding: 24px 0 32px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; } /* ========================================================= Mobile ========================================================= */ @media (max-width: 600px) { .content-wrapper { width: calc(100% - 36px); } header { padding: 40px 0 24px; } h1 { font-size: 2rem; } h2 { margin-top: 32px; } .publications > li { padding: 17px 0; } h3 { font-size: 0.97rem; } .meta { font-size: 12.5px; } } /* ========================================================= Reduced motion ========================================================= */ @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0.01ms !important; } } 
+/* ========================================================= Base ========================================================= */ :root { --background: #ffffff; --text: #2b3036; --muted: #69727d; --accent: #315d85; --accent-hover: #1e405f; --border: #e2e6ea; --header-background: #f1f5f9; } * { box-sizing: border-box; } html { scroll-behavior: smooth; } body { margin: 0; background: var(--background); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; } /* ========================================================= Layout ========================================================= */ .sidebar { display: none; } .content-wrapper { width: min(100% - 48px, 860px); margin: 0 auto; } main { padding: 12px 0 48px; } /* ========================================================= Header ========================================================= */ header { position: relative; isolation: isolate; padding: 64px 0 32px; border-bottom: 1px solid var(--border); } /* Extend the header background beyond the centered content-wrapper so that it covers the entire viewport. */ header::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%); background: var(--header-background); } /* ========================================================= Typography ========================================================= */ h1 { margin: 0 0 12px; font-size: clamp(2rem, 5vw, 2.7rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.2; } 
+.description { margin: 0; color: var(--muted); font-size: 1em; line-height: 1.85; } 
+h2 { margin: 42px 0 18px; padding-bottom: 9px; border-bottom: 1px solid var(--border); font-size: 1.3rem; font-weight: 500; letter-spacing: -0.015em; line-height: 1.3; } h3 { margin: 0; font-size: 1rem; font-weight: 500; line-height: 1.55; } /* ========================================================= Links ========================================================= */ a { color: var(--accent); text-decoration: none; text-underline-offset: 3px; transition: color 0.15s ease, text-decoration-color 0.15s ease; } a:hover { color: var(--accent-hover); text-decoration: underline; } a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; } .cv-link { white-space: nowrap; } #emel a { color: inherit; text-decoration: none; font-weight: normal; } /* ========================================================= Publications ========================================================= */ .publications { margin: 0; padding: 0; list-style: none; } .publications > li { margin: 0; padding: 20px 0; border-bottom: 1px solid var(--border); } .publications > li:last-child { border-bottom: none; } /* Publication links: [arXiv], [DOI], [PDF] */ .publications > li h3 a { display: inline-block; margin-left: 4px; font-size: 0.72rem; font-weight: 500; white-space: nowrap; vertical-align: 0.08em; } /* Authors / journal information */ .meta { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.65; } /* ========================================================= p5.js sketch ========================================================= */ #sketch-container { max-width: 100%; margin: 32px auto; overflow: hidden; } #sketch-container canvas { display: block; max-width: 100%; height: auto; } /* ========================================================= Footer ========================================================= */ footer { padding: 24px 0 32px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; } /* ========================================================= Mobile ========================================================= */ @media (max-width: 600px) { .content-wrapper { width: calc(100% - 36px); } header { padding: 40px 0 24px; } h1 { font-size: 2rem; } h2 { margin-top: 32px; } .publications > li { padding: 17px 0; } h3 { font-size: 0.97rem; } .meta { font-size: 12.5px; } } /* ========================================================= Reduced motion ========================================================= */ @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition-duration: 0.01ms !important; } } 
 /* =========================================================
    Profile
    ========================================================= */
@@ -105,6 +107,33 @@
 .publication-section[open] .publications {
   margin-top: 0;
 }
+
+
+/* =========================================================
+   Justified text in About and Research topics
+   ========================================================= */
+
+.publication-section > p {
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+}
+
+#sketch-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 32px auto;
+  overflow: hidden;
+}
+
+#sketch-container canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <script src="projective_billiards.js" defer></script>
@@ -127,19 +156,48 @@
       <h1>Corentin Fierobe</h1>
 
       <p class="description">
-        Researcher in mathematics — dynamical systems, almost integrable systems, KAM theory<br>
-        Postdoctoral researcher at University of Rome Tor Vergata
-        <span class="cv-link">
-          <a href="moncv.pdf" target="_blank">[My CV]</a>
-        </span>
-        <br>
+University of Rome Tor Vergata
+        <br/>
         <span id="emel"></span>
+        <br/>
+        <span class="cv-link">
+          <a href="moncv.pdf" target="_blank">📄 My CV</a>
+        </span>
       </p>
     </div>
   </div>
     </header>
 
     <main>
+
+<details class="publication-section"> 
+<summary>About</summary> 
+<p> I am currently a postdoctoral researcher 
+in the <a href="https://web.uniroma2.it/en/contenuto/department_of_mathematics">Department of Mathematics</a> 
+at the University of Rome Tor Vergata. 
+My position is partially funded 
+by the <a href="https://65a508eeb80a5.site123.me/">PRIN project "Stability in Hamiltonian Dynamics and Beyond"</a> (PI: Prof. Alfonso Sorrentino) 
+and the <a href="https://www.mat.uniroma2.it/progetto/">Department of Excellence grant MatMod@TOV (2023–2027)</a>. 
+</p> 
+<p>Previously, I was a postdoctoral researcher 
+in the <a href="https://ist.ac.at/en/research/kaloshin-group/">Kaloshin Group</a> 
+at the <a href="https://ista.ac.at/en/home/">Institute of Science and Technology Austria (ISTA)</a>. 
+My position was partially funded 
+by the ERC Advanced Grant SPERIG (Grant No. 885707; PI: Prof. Vadim Kaloshin). </p> 
+
+<p> I obtained my PhD under the supervision 
+of Prof. Alexey Glutsyuk 
+at the <a href="https://www.umpa.ens-lyon.fr/">Unité de Mathématiques Pures et Appliquées (UMPA)</a> 
+of the <a href="https://www.ens-lyon.fr/">École Normale Supérieure de Lyon (ENS Lyon)</a>. 
+My doctoral thesis is available <a href="https://theses.fr/2021LYSEN014">here</a>. 
+</p> 
+</details> 
+
+<details class="publication-section"> 
+<summary>Research topics</summary> 
+<p> My research in <b>dynamical systems</b> focuses on <b>spectral rigidity</b>, <b>KAM theory</b>, <b>integrable and nearly integrable systems</b>, and the <b>existence and abundance of periodic orbits</p>. I am particularly interested in a variety of dynamical models, including billiards, standard maps, ping-pong dynamics, and Fermi–Ulam models, among others. 
+</p> 
+</details> 
 
 <details class="publication-section">
   <summary>Preprints</summary>
@@ -286,8 +344,8 @@
   </footer>
 	
   <script>
-const user = "cpef";
-const domain = "gmx.de";
+const user = "corentin.pierre.edgar.fierobe";
+const domain = "uniroma2.it";
 const result = user + "@" + domain;
 document.getElementById("emel").innerHTML = `<a href=\"mailto:${result}\" style=\"color: inherit; text-decoration: none; font-weight: normal;\">📧</a> ${result}`;
 </script>
