@@ -103,8 +103,8 @@ function initFigure(){
   let ext3 = liste_des_points.getPoint(cote2Ext1);
   let ext4 = liste_des_points.getPoint(cote2Ext2);
   
-  mi1 = randomPointOn(ext1,ext2);
-  mi2 = randomPointOn(ext3,ext4);
+  mi1 = randomPointOn(ext1, ext2, 0.4);
+  mi2 = randomPointOn(ext3, ext4, 0.5);
   
   depart1 = liste_des_points.addPoint(mi1.x, mi1.y);
   depart2 = liste_des_points.addPoint(mi2.x, mi2.y);
@@ -158,9 +158,11 @@ function miPoint(pt1,pt2){
 	return new Vecteur((pt1.x+pt2.x)/2, (pt1.y+pt2.y)/2);
 }
 
-function randomPointOn(pt1,pt2){
-	let t=random(10,90)/100;
-	return new Vecteur(pt1.x+t*(pt2.x-pt1.x), pt1.y+t*(pt2.y-pt1.y));
+function randomPointOn(pt1, pt2, t = random(10, 90) / 100) {
+  return new Vecteur(
+    pt1.x + t * (pt2.x - pt1.x),
+    pt1.y + t * (pt2.y - pt1.y)
+  );
 }
 
 class listePoint{
